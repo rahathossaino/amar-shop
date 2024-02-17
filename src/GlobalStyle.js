@@ -159,12 +159,12 @@ input, textarea{
 
 
 
-.grid{
-  gap: 3.2rem;
-}
-      .grid-two-column , .grid-three-column, .grid-four-column{
-          grid-template-columns: 1fr;
-        }
-    }
+// .grid{
+//   gap: 3.2rem;
+// }
+//       .grid-two-column , .grid-three-column, .grid-four-column{
+//           grid-template-columns: 1fr;
+//         }
+//     }
 
 `;
