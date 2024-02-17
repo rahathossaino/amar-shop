@@ -1,4 +1,4 @@
-<h1>amar shop</h1>
+<h1>Amar Shop</h1>
 <p>amar shop is a fully functional ecommerece built using react</p>
 
 ## Follow the 3 Steps to install the project and you are good to go. 
