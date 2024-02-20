@@ -12,7 +12,7 @@ const AppProvider=({childern})=>{
         isLoading:false,
         isError:false,
         products:[],
-        feturedProducts:[]
+        featuredProducts:[]
     }
     const [state,dispatch]=useReducer(ProductReducer,initialState);
 
