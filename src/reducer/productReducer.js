@@ -2,7 +2,7 @@ const ProductReducer=(state,action)=>{
     switch(action.type){
         case 'SET_LOADING':
             return{
-                ... state,
+                ...state,
                 isLoading:true
             }
         case 'SET_API_DATA':
@@ -10,17 +10,21 @@ const ProductReducer=(state,action)=>{
                 return element.featured===true;
             })
             return {
-                ... state,
+                ...state,
                 isLoading:false,
                 products:action.payload,
                 featuredProducts:products
             }
         case 'SET_ERROR':
             return {
-                ... state,
+                ...state,
                 isError:true,
                 isLoading:false
-            }   
+            }
+        default:
+            return{
+                ...state
+            }       
     }
 }
 export default ProductReducer;
