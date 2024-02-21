@@ -29,12 +29,13 @@ const ProductReducer=(state,action)=>{
         case 'SET_SINGLE_API_DATA':
             return{
                 ...state,
-                isLoading:false,
+                isSingleLoading:false,
                 product:action.payload,
             }
         case 'SET_SINGLE_ERROR' :
             return{
                 ...state,
+                isSingleLoading:false,
                 isSingleError:true
             } 
         default:
