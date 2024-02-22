@@ -1,5 +1,5 @@
 <h1>Amar Shop</h1>
-<p>amar shop is a fully functional ecommerece built using react</p>
+<p>Amar Shop is a fully functional ecommerece built using React & Laravel</p>
 
 ## Follow the 3 Steps to install the project and you are good to go. 
 
