@@ -1,6 +1,6 @@
 import React from 'react'
 
-const FormatPrice = () => {
+const FormatPrice = ({price}) => {
   return  Intl.NumberFormat("bn_BD",{
         style:'currency',
         currency:'TK'
