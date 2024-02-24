@@ -6,10 +6,10 @@ import ListView from './ListView';
 const ProductList = () => {
   const [products,grid_view]=useFilterContext();
   if(grid_view===true){
-    <GridView products={products}/>
+    return <GridView products={products}/>
   }
   if(grid_view===false){
-    <ListView products={products}/>
+    return <ListView products={products}/>
   }
 }
 
