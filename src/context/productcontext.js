@@ -4,7 +4,7 @@ import ProductReducer from "../reducer/productReducer";
 
 const AppContext=createContext();
 
-const API="https://pujakaitem.com/api/products";
+const API="";
 
 
 const AppProvider=({children})=>{

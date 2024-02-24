@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AppProvider } from "./context/productcontext";
-import FilterProvider from "./context/FilterContext";
+import { FilterProvider } from "./context/FilterContext";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
