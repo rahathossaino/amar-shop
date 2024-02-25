@@ -6,9 +6,7 @@ const ProductReducer=(state,action)=>{
                 isLoading:true
             }
         case 'SET_API_DATA':
-            const products=action.payload.filter((element)=>{
-                return element.featured===true;
-            })
+            const products = Array.isArray(action.payload) ? action.payload.filter(curElem => curElem.featured === true) : [];
             return {
                 ...state,
                 isLoading:false,
