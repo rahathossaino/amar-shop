@@ -4,10 +4,10 @@ import Product from "./Product";
 
 const GridView = ({ products }) => {
   return (
-    <Wrapper className="section">
+    <Wrapper>
       <div className="container grid grid-three-column">
-        {products.map((curElem) => {
-          return <Product key={curElem.id} {...curElem} />;
+        {products.map((curElem,idx) => {
+          return <Product key={idx} {...curElem} />;
         })}
       </div>
     </Wrapper>
