@@ -1,9 +1,9 @@
 import React from 'react'
 
 const FormatPrice = ({price}) => {
-  return  Intl.NumberFormat("en_IN",{
+  return  Intl.NumberFormat("bn_BD",{
         style:'currency',
-        currency:'INR'
+        currency:'BDT'
     }).format(price/100); 
 }
 
