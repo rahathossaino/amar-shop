@@ -11,7 +11,7 @@ const FilterSection = () => {
   return (
     <Wrapper>
       <div className='filter-search'>
-        <form onSubmit={(e)=>e.preventDefault}>
+        <form onSubmit={(e)=>e.preventDefault} >
           <input type="text" name='text' placeholder='SEARCH'/>
         </form>
       </div>

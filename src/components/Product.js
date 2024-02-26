@@ -16,7 +16,7 @@ const Product = (curElem) => {
           <div className="card-data-flex">
             <h3>{name}</h3>
             <p className="card-data--price">
-              {/* {<FormatPrice price={!(Array.isArray(price) ? price : 0) } />} */}
+              {<FormatPrice price={!(Array.isArray(price) ? price : 0) } />}
               </p>
           </div>
         </div>
