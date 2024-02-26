@@ -1,12 +1,28 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { useProductContext } from "./productcontext";
 import reducer from "../reducer/FilterProductReducer";
+import axios from "axios";
 
 const FilterContext = createContext();
+
+const categoryApi='';
+const companyApi='';
+const colorApi='';
+const maxpriceApi='';
+const minpriceApi='';
+const priceApi='';
+
+
 
 const initialState = {
   filter_products: [],
   all_products: [],
+  categories:[],
+  colors:[],
+  companies:[],
+  price:0,
+  maxprice:100,
+  minPrice:0,
   grid_view: true,
   sorting_value: "lowest",
   filters: {
@@ -42,17 +58,55 @@ export const FilterProvider = ({ children }) => {
 
     return dispatch({ type: "UPDATE_FILTERS_VALUE", payload: { name, value } });
   };
-
+  const getCategory=async (url)=>{
+    const res=await axios.get(url);
+    const categories=await res.data;
+    dispatch({ type: "SET_CATEGORIES" ,payload:categories});
+  }
+  const getCompany=async (url)=>{
+    const res=await axios.get(url);
+    const companies=await res.data;
+    dispatch({ type: "SET_COMPANIES" ,payload:companies});
+  }
+  const getColors=async (url)=>{
+    const res=await axios.get(url);
+    const colors=await res.data;
+    dispatch({ type: "SET_COLORS" ,payload:colors});
+  }
+  const getPrice=async (url)=>{
+    const res=await axios.get(url);
+    const price=await res.data;
+    dispatch({ type: "SET_PRICE" ,payload:price});
+  }
+  const getMaxPrice=async (url)=>{
+    const res=await axios.get(url);
+    const max=await res.data;
+    dispatch({ type: "SET_MAX_PRICE" ,payload:max});
+  }
+  const getMinPrice=async (url)=>{
+    const res=await axios.get(url);
+    const min=await res.data;
+    dispatch({ type: "SET_MIN_PRICE" ,payload:min});
+  } 
   // to sort the product
   useEffect(() => {
     dispatch({ type: "FILTER_PRODUCTS" });
-    dispatch({ type: "SORTING_PRODUCTS" });
-  }, [products]);
+    dispatch({ type: "SORTING_PRODUCTS",payload:products });
+  }, [state.sorting_value]);
 
   // to load all the products for grid and list view
   useEffect(() => {
     dispatch({ type: "LOAD_FILTER_PRODUCTS", payload: products });
   }, [products]);
+
+  useEffect(()=>{
+     getCategory(categoryApi); 
+     getCompany(companyApi);
+     getColors(colorApi);
+     getMaxPrice(maxpriceApi);
+     getMinPrice(minpriceApi);
+     getPrice(priceApi)
+  },[]);
 
   return (
     <FilterContext.Provider

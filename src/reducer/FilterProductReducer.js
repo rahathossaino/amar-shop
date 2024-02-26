@@ -26,7 +26,36 @@ const filterReducer = (state, action) => {
         ...state,
         sorting_value: action.payload,
       };
-
+    case 'SET_CATEGORIES':
+      return {
+        ...state,
+        categories:action.payload
+      }
+    case 'SET_PRICE':
+      return {
+        ...state,
+        price:action.payload
+      }
+    case 'SET_MAX_PRICE':
+      return {
+        ...state,
+        maxprice:action.payload
+      }
+    case 'SET_MIN_PRICE':
+        return {
+          ...state,
+          minprice:action.payload
+        }  
+    case 'SET_COMPANIES':
+      return {
+        ...state,
+        companies:action.payload
+      }
+    case 'SET_COLORS':
+      return {
+        ...state,
+        colors:action.payload
+      }
     case "SORTING_PRODUCTS":
       let newSortData;
       // let tempSortProduct = [...action.payload];

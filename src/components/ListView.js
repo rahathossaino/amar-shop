@@ -18,7 +18,7 @@ const ListView = ({ products }) => {
               <div className="card-data">
                 <h3>{name}</h3>
                 <p>
-                  <FormatPrice price={price} />
+                  {/* <FormatPrice price={price} /> */}
                 </p>
                 <p>{description.slice(0, 90)}...</p>
 
