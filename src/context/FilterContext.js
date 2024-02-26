@@ -21,7 +21,7 @@ const initialState = {
   colors:[],
   companies:[],
   price:0,
-  maxprice:100,
+  maxprice:0,
   minPrice:0,
   grid_view: true,
   sorting_value: "lowest",
