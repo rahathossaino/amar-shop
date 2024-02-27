@@ -8,6 +8,12 @@ import { Button } from '../styles/Button';
 
 const FilterSection = () => {
   const {categories,colors,companies,price,maxPrice,minPrice}=useFilterContext();
+
+const setPrice=()=>{
+  console.log('hello');
+}
+
+
   return (
     <Wrapper>
       <div className='filter-search'>
@@ -28,9 +34,9 @@ const FilterSection = () => {
           }
         </div>
       </div>
+
       <div className="filter-company">
         <h3>Company</h3>
-
         <form action="#">
           <select
             name="company"
@@ -49,9 +55,8 @@ const FilterSection = () => {
         </form>
       </div>
 
-      <div className="filter-colors colors">
+     <div className="filter-colors colors">
         <h3>Colors</h3>
-
         <div className="filter-color-style">
           {colors.map((curColor, index) => {
             return (
@@ -73,13 +78,15 @@ const FilterSection = () => {
       <div className="filter_price">
         <h3>Price</h3>
         <p>
-          {/* <FormatPrice price={price}/> */}
+          <FormatPrice price={price}/>
         </p>
-        <input type='range' min={minPrice} max={maxPrice} value={price}/>
+        <form action='#'>
+          <input type='range' min={minPrice} max={maxPrice} value={price} onChange={setPrice}/>
+        </form>
       </div>
       <div className='filter-clear'>
         <Button className='btn'>Clear Filters</Button>
-      </div>
+      </div> 
     </Wrapper>
   );
 };
