@@ -8,12 +8,10 @@ import { Button } from '../styles/Button';
 
 const FilterSection = () => {
   const {categories,colors,companies,price,maxPrice,minPrice}=useFilterContext();
-
-const setPrice=()=>{
-  console.log('hello');
-}
-
-
+  const setPrice=()=>{
+    console.log('i will implment it later');
+  }
+  
   return (
     <Wrapper>
       <div className='filter-search'>
