@@ -12,12 +12,15 @@ import SingleProduct from '../user/SingleProduct';
 import Cart from '../user/Cart';
 import ErrorPage from '../ErrorPage';
 import { CartProvider } from '../user/context/cartContext';
+import {GlobalStyle} from '../GlobalStyle';
+
 
 const UserLayout = () => {
   return (
     <AppProvider>
         <FilterProvider>
           <CartProvider>
+            <GlobalStyle/>
             <Header/>
             <Routes>
               <Route path="/" element={<Home/>}/>

@@ -1,0 +1,31 @@
+.navbar{
+    height:5rem;
+    display:flex;
+    align-items:center;
+    font-size: 1.4rem;
+    color:#555;
+    .wrapper{
+        display:flex;
+        align-items:center;
+        padding: 2rem;
+        justify-content: space-between;
+        width: 100%;
+        .search{
+            display: flex;
+            align-items: center;
+            border:0.5px solid lightgray;
+            padding:0.3rem;
+            input{
+                border:none;
+                outline:none;
+                background: transparent;
+                &::placeholder{
+                    font-size: 1.2rem;
+                }
+            }
+        }
+        .items{
+            display:flex;
+        }
+    }
+}

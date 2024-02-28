@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import {GlobalStyle} from './GlobalStyle';
 import { ThemeProvider } from "styled-components";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
@@ -35,7 +34,6 @@ const App = () => {
   return(
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <GlobalStyle/>
         {url.includes('admin')  ? <AdminLayout/> : <UserLayout/> }
       </BrowserRouter>
     </ThemeProvider>
