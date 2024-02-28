@@ -1,17 +1,17 @@
 import React from 'react'
 import { Routes,Route } from "react-router-dom";
-import { AppProvider } from "../context/productcontext";
-import { FilterProvider } from "../context/filterContext";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Home from '../Home';
-import About from '../About';
-import Products from '../Products';
-import Contact from '../Contact';
-import SingleProduct from '../SingleProduct';
-import Cart from '../Cart';
+import { AppProvider } from "../user/context/productcontext";
+import { FilterProvider } from "../user/context/filterContext";
+import Header from "../user/components/Header";
+import Footer from "../user/components/Footer";
+import Home from '../user/Home';
+import About from '../user/About';
+import Products from '../user/Products';
+import Contact from '../user/Contact';
+import SingleProduct from '../user/SingleProduct';
+import Cart from '../user/Cart';
 import ErrorPage from '../ErrorPage';
-import { CartProvider } from '../context/cartContext';
+import { CartProvider } from '../user/context/cartContext';
 
 const UserLayout = () => {
   return (

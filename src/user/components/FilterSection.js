@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components';
 import { useFilterContext } from '../context/filterContext';
-import FormatPrice from '../helpers/FormatPrice';
-import { Button } from '../styles/Button';
+import FormatPrice from '../../helpers/FormatPrice';
+import { Button } from '../../styles/Button';
 
 
 
