@@ -15,7 +15,24 @@ const cartReducer = (state,action) => {
             ...state,
             cartItem: updatedCart,
           };
-
+    case "SET_CART_CLEAR":
+        return {
+            ...state,
+            cart: [],
+          };
+    case "CART_TOTAL_PRICE":
+      let total_price = state.cart.reduce((initialVal, curElem) => {
+            let { price, amount } = curElem;
+      
+            initialVal = initialVal + price * amount;
+      
+            return initialVal;
+          }, 0);
+      
+          return {
+            ...state,
+            total_price:total_price
+          };
     default:
         return{
             ...state,
