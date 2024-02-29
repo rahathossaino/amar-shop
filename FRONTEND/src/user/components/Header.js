@@ -8,8 +8,7 @@ const Header = () => {
     <Mainheader className='header'>
         <NavLink to='/'>
               <div className="logo">
-                <h3 id="amar">Amar</h3>
-                <h3>Shop</h3>
+                <h3>amarshop</h3>
               </div>
         </NavLink>
         <Navbar/>
@@ -25,16 +24,12 @@ const Mainheader=styled.header`
   align-items:center;
   position:relative;
   .logo{
-    border:5px solid ${({theme})=>theme.colors.helper};
     h3{
+      color:#6439ff;
       display:inline;
       font-size:3.4rem;
       padding:0 0.5rem;
     }  
-  }
-  #amar{
-    background-color:${({theme})=>theme.colors.helper};
-    color:white;
   }
  `;
 export default Header

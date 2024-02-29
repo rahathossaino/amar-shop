@@ -27,12 +27,17 @@ const Navbar = () => {
           </div>
           <div className="item">
             <IoMdNotificationsOutline className='icon'/>
+            <div className="counter">1</div>
           </div>
           <div className="item">
             <MdChatBubbleOutline className='icon'/>
+            <div className="counter">2</div>
           </div>
           <div className="item">
             <IoListOutline className='icon'/>
+          </div>
+          <div className="item">
+            <img src="" className='avatar'/>
           </div>
         </div>
       </div>
