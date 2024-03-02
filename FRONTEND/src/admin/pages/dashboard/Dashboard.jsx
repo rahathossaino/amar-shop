@@ -23,12 +23,10 @@ const Dashboard = () => {
       </div>
       <div className='charts'>
         <Featured/>
-        <Chart/>
+        <Chart aspect={2/1} title="Last 6 months (Revenue)"/>
       </div>
       <div className='latest'>
-        <div className="latestTitle">
-          <div>Latest Transaction</div>
-        </div>
+        <div className="latestTitle">Latest Transaction</div>
         <Table/>
       </div>
       </div>
