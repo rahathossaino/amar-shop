@@ -5,6 +5,8 @@ import Navbar from '../../components/navbar/Navbar';
 import Widget from '../../components/widget/Widget';
 import Featured from '../../components/featured/Featured';
 import Chart from '../../components/chart/Chart';
+import Table from '../../components/table/Table';
+
 
 
 const Dashboard = () => {
@@ -22,6 +24,12 @@ const Dashboard = () => {
       <div className='charts'>
         <Featured/>
         <Chart/>
+      </div>
+      <div className='latest'>
+        <div className="latestTitle">
+          <div>Latest Transaction</div>
+        </div>
+        <Table/>
       </div>
       </div>
     </div>
