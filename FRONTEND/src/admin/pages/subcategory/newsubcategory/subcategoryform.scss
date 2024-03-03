@@ -1,0 +1,42 @@
+.categoryForm{
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    form{
+        height: 20rem;
+        width: 25rem;
+        box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(201,201,201,0.47);
+        .left{
+            padding: 2rem 5rem 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap:1.3rem;
+            input{
+                width: 100%;
+                border: none;
+                border-bottom: 1px solid gray;
+                outline: none;
+            }
+            select{
+                outline: none;
+                margin-left: 0.5rem;
+            }
+            input[type=file]{
+                border: none;
+            }
+            .submit{
+                height: 2rem;
+                width: 4rem;
+                color: white;
+                border: 0.5px solid gray;
+                background-color: rgb(119, 119, 255);
+                transition: all 0.3s;
+                cursor:pointer ;
+                &:hover{
+                    transform: scale(0.95);
+                }
+            }
+        }
+    }
+    
+}

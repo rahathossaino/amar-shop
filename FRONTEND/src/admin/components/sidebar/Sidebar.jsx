@@ -2,11 +2,14 @@ import React from 'react'
 import './sidebar.scss';
 import {Link} from 'react-router-dom';
 import { MdDashboard } from "react-icons/md";
+import { BiCategory } from "react-icons/bi";
 import { FaUser,FaUserCircle } from "react-icons/fa";
-import { MdProductionQuantityLimits,MdOutlineLogout,MdLocalShipping } from "react-icons/md";
+import { MdProductionQuantityLimits,MdOutlineLogout,MdLocalShipping,MdCategory } from "react-icons/md";
 import { BsCreditCardFill } from "react-icons/bs";
 import { IoSettings } from "react-icons/io5";
 import { IoLogOut } from "react-icons/io5";
+import { FaApple } from "react-icons/fa";
+
 
 
 const sidebar = () => {
@@ -26,6 +29,24 @@ const sidebar = () => {
                   </Link>
                 </li>
                 <p className='title'>LIST</p>
+                <li>
+                  <Link to='/admin/categories' className="nav-link">
+                    <MdCategory className='icon'/>
+                    <span>Category</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to='/admin/sub-categories' className="nav-link">
+                    <BiCategory className='icon'/>
+                    <span>Sub-Category</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to='/admin/brands' className="nav-link">
+                    <FaApple className='icon'/>
+                    <span>Brand</span>
+                  </Link>
+                </li>
                 <li>
                   <Link to='/admin/products' className="nav-link">
                     <MdProductionQuantityLimits className='icon'/>
