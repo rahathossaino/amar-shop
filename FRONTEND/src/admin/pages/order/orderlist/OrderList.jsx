@@ -1,7 +1,7 @@
-import "./productlist.scss"
+import "./orderlist.scss"
 import Sidebar from "../../../components/sidebar/Sidebar"
 import Navbar from "../../../components/navbar/Navbar"
-import Datatable from "../../../components/product_datatable/Datatable"
+import Datatable from "../../../components/order_datatable/Datatable"
 
 const ProductList = () => {
   return (

@@ -10,6 +10,8 @@ import NewSubCategory from '../admin/pages/subcategory/newsubcategory/NewSubCate
 import BrandList from '../admin/pages/brand/brandlist/BrandList';
 import NewBrand from '../admin/pages/brand/newbrand/NewBrand';
 import ProductList from '../admin/pages/product/productlist/ProductList';
+import SingleProduct from '../admin/pages/product/singleproduct/SingleProduct';
+import OrderList from '../admin/pages/order/orderlist/OrderList';
 
 import Single from '../admin/components/single/Single';
 import New from '../admin/components/new/New';
@@ -38,7 +40,12 @@ const AdminLayout = () => {
           </Route>
           <Route path="products">
             <Route index element={<ProductList />} />
-            <Route path=":productId" element={<Single />} />
+            <Route path=":productId" element={<SingleProduct />} />
+            <Route path="create" element={<New />} />
+          </Route>
+          <Route path="orders">
+            <Route index element={<OrderList />} />
+            <Route path=":productId" element={<SingleProduct />} />
             <Route path="create" element={<New />} />
           </Route>
           <Route path="users">

@@ -6,10 +6,10 @@ import { useState } from "react";
 
 const userRows =[{
     id: 1,
-    name: "Snow",
+    title: "Snow",
     slug:'snow',
     img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "active",
+    status: "inactive",
   }]
 
 const Datatable = () => {
@@ -23,13 +23,12 @@ const Datatable = () => {
     setData(data.filter((item) => item.id === id));
   };
 
-
   const categoryColumns = [
-    { field: "id", headerName: "ID", width: 70 },
+    { field: "id", headerName: "ID", width: 80 },
     {
-      field: "name",
-      headerName: "Name",
-      width: 230,
+      field: "title",
+      headerName: "Title",
+      width: 200,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
@@ -40,14 +39,34 @@ const Datatable = () => {
       },
     },
     {
-      field: "slug",
-      headerName: "Slug",
-      width: 230,
+      field: "price",
+      headerName: "Price",
+      width: 100,
+    },
+    {
+      field: "qty",
+      headerName: "Quantity",
+      width: 100,
+    },
+    {
+      field:"category",
+      headerName: "Category",
+      width: 120,
+    },
+    {
+      field:"sub-categoty",
+      headerName: "Sub-Category",
+      width: 120,
+    },
+    {
+      field:"brand",
+      headerName: "Brand",
+      width: 120,
     },
     {
       field: "status",
       headerName: "Status",
-      width: 160,
+      width: 100,
       renderCell: (params) => {
         return (
           <div className={`cellWithStatus ${params.row.status}`}>
@@ -57,23 +76,41 @@ const Datatable = () => {
       },
     },
     {
+      field: "is_featured",
+      headerName: "Featured",
+      width: 100,
+      renderCell: (params) => {
+        return (
+          <div className={`cellWithfeatured ${params.row.is_featured}`}>
+            {params.row.is_featured}
+          </div>
+        );
+      },
+    },
+    {
       field: "action",
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
+        const url="/admin/products/"+params.row.id;
         return (
           <div className="cellAction">
             <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              className="viewButton"
             >
-              Delete
+              <Link to={url} className="link">View</Link>
             </div>
             <div
               className="editButton"
               onClick={() => handleEdit(params.row.id)}
             >
               Edit
+            </div>
+            <div
+              className="deleteButton"
+              onClick={() => handleDelete(params.row.id)}
+            >
+              Delete
             </div>
           </div>
         );
@@ -86,7 +123,7 @@ const Datatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Create New Product
-        <Link to="/admin/categories/create" className="link">
+        <Link to="/admin/products/create" className="link">
           Create New
         </Link>
       </div>
