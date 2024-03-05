@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import './productform.scss';
+import './editform.scss';
 
 
 const ProductForm = () => {
@@ -61,7 +61,6 @@ const ProductForm = () => {
                         value={formData.price}
                         onChange={handleInputChange}
                         placeholder='Product price..'
-                        className='number'
                         />
                     </label>
                 </div>
@@ -74,7 +73,6 @@ const ProductForm = () => {
                         value={formData.price_of_day}
                         onChange={handleInputChange}
                         placeholder='Product slug..'
-                        className='number'
                         />
                     </label>
                 </div>
@@ -134,7 +132,6 @@ const ProductForm = () => {
                             value={formData.price_of_day}
                             onChange={handleInputChange}
                             placeholder='Product slug..'
-                            className='number'
                         />
                     </label>
                 </div>
@@ -158,7 +155,6 @@ const ProductForm = () => {
                         type="number"
                         name="qty"
                         onChange={handleInputChange}
-                        className='number'
                         />
                     </label>
                 </div>

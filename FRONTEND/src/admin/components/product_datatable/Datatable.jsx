@@ -92,7 +92,8 @@ const Datatable = () => {
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
-        const url="/admin/products/"+params.row.id;
+        const url="/admin/products/view/"+params.row.id;
+        const url2="/admin/products/edit/"+params.row.id;
         return (
           <div className="cellAction">
             <div
@@ -100,11 +101,8 @@ const Datatable = () => {
             >
               <Link to={url} className="link">View</Link>
             </div>
-            <div
-              className="editButton"
-              onClick={() => handleEdit(params.row.id)}
-            >
-              Edit
+            <div className="editButton">
+              <Link  to={url2} className="link">Edit</Link>
             </div>
             <div
               className="deleteButton"

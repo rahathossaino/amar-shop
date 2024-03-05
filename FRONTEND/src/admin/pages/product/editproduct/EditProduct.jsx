@@ -1,18 +1,20 @@
-import "./newproduct.scss"
+import "./editproduct.scss"
 import Sidebar from "../../../components/sidebar/Sidebar"
 import Navbar from "../../../components/navbar/Navbar"
-import ProductForm from "./ProductForm"
+import EditForm from "./EditForm"
 
-const NewProduct = () => {
+
+
+const EditProduct = () => {
   return (
     <div className="list">
       <Sidebar/>
       <div className="listContainer">
         <Navbar/>
-        <ProductForm/>
+        <EditForm/>
       </div>
     </div>
   )
 }
 
-export default NewProduct;
+export default EditProduct;

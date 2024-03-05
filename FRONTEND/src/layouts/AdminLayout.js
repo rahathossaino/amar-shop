@@ -11,7 +11,10 @@ import BrandList from '../admin/pages/brand/brandlist/BrandList';
 import NewBrand from '../admin/pages/brand/newbrand/NewBrand';
 import ProductList from '../admin/pages/product/productlist/ProductList';
 import SingleProduct from '../admin/pages/product/singleproduct/SingleProduct';
+import NewProduct from '../admin/pages/product/newproduct/NewProduct';
+import EditProduct from '../admin/pages/product/editproduct/EditProduct';
 import OrderList from '../admin/pages/order/orderlist/OrderList';
+import SingleOrder from '../admin/pages/order/singleorder/SingleOrder';
 
 import Single from '../admin/components/single/Single';
 import New from '../admin/components/new/New';
@@ -40,13 +43,13 @@ const AdminLayout = () => {
           </Route>
           <Route path="products">
             <Route index element={<ProductList />} />
-            <Route path=":productId" element={<SingleProduct />} />
-            <Route path="create" element={<New />} />
+            <Route path="view/:productId" element={<SingleProduct />} />
+            <Route path="create" element={<NewProduct />} />
+            <Route path="edit/:productId" element={<EditProduct />} />
           </Route>
           <Route path="orders">
             <Route index element={<OrderList />} />
-            <Route path=":productId" element={<SingleProduct />} />
-            <Route path="create" element={<New />} />
+            <Route path=":orderId" element={<SingleOrder />} />
           </Route>
           <Route path="users">
             <Route index element={<UserList />} />

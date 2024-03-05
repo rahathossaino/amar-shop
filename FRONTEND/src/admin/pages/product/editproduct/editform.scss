@@ -21,16 +21,15 @@
                 border-bottom: 1px solid gray;
                 outline: none;
             }
-            input[type=file]{
-                border: none;
-            }
             textarea{
                 outline: none;
                 height: 5rem; 
             }
-            
             select{
                 outline: none;
+            }
+            input[type=file]{
+                border: none;
             }
             .radiocheck{
                 display: flex;

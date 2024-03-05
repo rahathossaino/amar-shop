@@ -1,0 +1,42 @@
+.list {
+  display: flex;
+  width: 100%;
+  .listContainer {
+    flex: 6;
+    .singleproduct{
+      width: 50%;
+      display: flex;
+      gap: 5rem;
+      margin: auto;
+      margin-top: 3rem;
+      padding: 2rem;
+      box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(201,201,201,0.47);
+      .titleItem{
+        color: gray;
+      }
+      .left{
+        display: flex;
+        flex-direction: column;
+        margin-right: 5rem;
+        .item{
+          display: flex;
+          align-items: center;
+          .title{
+            font-weight: bold;
+          }
+          span{
+            padding-right: 0.5rem;
+          }
+        }
+      }
+      .right{
+        .title{
+          font-weight: bold;
+        }
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  }
+}
