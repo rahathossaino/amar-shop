@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import { MdDashboard } from "react-icons/md";
 import { BiCategory } from "react-icons/bi";
 import { FaUser,FaUserCircle } from "react-icons/fa";
+import { RiCoupon3Fill } from "react-icons/ri";
 import { MdProductionQuantityLimits,MdOutlineLogout,MdLocalShipping,MdCategory } from "react-icons/md";
 import { BsCreditCardFill } from "react-icons/bs";
 import { IoSettings } from "react-icons/io5";
@@ -60,9 +61,9 @@ const sidebar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to='/admin/delivary' className="nav-link">
-                    <MdLocalShipping className='icon'/>
-                    <span>Delivary</span>
+                  <Link to='/admin/coupons' className="nav-link">
+                    <RiCoupon3Fill className='icon'/>
+                    <span>Coupon</span>
                   </Link>
                 </li>
                 <li>

@@ -83,7 +83,7 @@ const Datatable = () => {
   
 
   return (
-    <div className="datatable">
+    <div className="brandTable">
       <div className="datatableTitle">
         Create New Brand
         <Link to="/admin/brands/create" className="link">
@@ -95,7 +95,7 @@ const Datatable = () => {
         rows={data}
         columns={barndColumns}
         pageSize={5}
-        rowsPerPageOptions={[10]}
+        rowsPerPageOptions={[9]}
         checkboxSelection
       />
     </div>

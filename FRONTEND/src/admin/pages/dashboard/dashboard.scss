@@ -1,6 +1,10 @@
 .dashboard{
     display: flex;
+    background-color: rgb(241, 244, 245);
+
     .dashboardContainer{
+    background-color: rgb(241, 244, 245);
+
         flex:6;
         .widgets{
             display: flex;

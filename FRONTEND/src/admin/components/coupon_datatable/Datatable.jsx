@@ -7,8 +7,7 @@ import { useState } from "react";
 const userRows =[{
     id: 1,
     name: "Snow",
-    slug:'snow',
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+    code:'snow',
     status: "active",
   }]
 
@@ -30,19 +29,11 @@ const Datatable = () => {
       field: "name",
       headerName: "Name",
       width: 250,
-      renderCell: (params) => {
-        return (
-          <div className="cellWithImg">
-            <img className="cellImg" src={params.row.img} alt="avatar" />
-            {params.row.name}
-          </div>
-        );
-      },
     },
     {
-      field: "slug",
-      headerName: "Slug",
-      width: 250,
+      field: "code",
+      headerName: "Code",
+      width: 200,
     },
     {
       field: "status",
@@ -59,21 +50,29 @@ const Datatable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width: 250,
       renderCell: (params) => {
+        const url='/admin/coupons/'+params.row.id;
         return (
           <div className="cellAction">
             <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
+              className="viewButton"
             >
-              Delete
+              <Link to={url} className="link">
+                View
+              </Link>
             </div>
             <div
               className="editButton"
               onClick={() => handleEdit(params.row.id)}
             >
               Edit
+            </div>
+            <div
+              className="deleteButton"
+              onClick={() => handleDelete(params.row.id)}
+            >
+              Delete
             </div>
           </div>
         );
@@ -83,10 +82,10 @@ const Datatable = () => {
   
 
   return (
-    <div className="categorytable">
+    <div className="coupontable">
       <div className="datatableTitle">
-        Create New Category
-        <Link to="/admin/categories/create" className="link">
+        Create New Coupon
+        <Link to="/admin/coupons/create" className="link">
           Create New
         </Link>
       </div>

@@ -1,9 +1,9 @@
-import "./subcategorylist.scss"
+import './couponlist.scss';
 import Sidebar from "../../../components/sidebar/Sidebar"
 import Navbar from "../../../components/navbar/Navbar"
-import Datatable from "../../../components/subcategory_datatable/Datatable"
+import Datatable from "../../../components/coupon_datatable/Datatable"
 
-const SubCategoryList = () => {
+const CouponList = () => {
   return (
     <div className="list">
       <Sidebar/>
@@ -15,4 +15,4 @@ const SubCategoryList = () => {
   )
 }
 
-export default SubCategoryList;
+export default CouponList;

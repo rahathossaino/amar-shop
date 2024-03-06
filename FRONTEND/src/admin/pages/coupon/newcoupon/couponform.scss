@@ -1,44 +1,27 @@
-.productForm{
+.couponForm{
     display: flex;
     justify-content: center;
     margin-top: 2rem;
-    
     form{
-        width: 90%;
+        // height: 18rem;
+        width: 25rem;
         box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(201,201,201,0.47);
-        .formData{
-            width: 90%;
-            padding: 2rem;
+        .left{
+            padding: 2rem 5rem 2rem 3rem;
             display: flex;
             flex-direction: column;
             gap:1.3rem;
-            textarea{
-                width: 100%;
-            }
             input{
                 width: 100%;
                 border: none;
                 border-bottom: 1px solid gray;
                 outline: none;
-            }
-            textarea{
-                outline: none;
-                height: 5rem; 
-            }
-            select{
-                outline: none;
+                 background-color: rgb(241, 244, 245);
+
             }
             input[type=file]{
                 border: none;
-            }
-            .radiocheck{
-                display: flex;
-                .title{
-                    padding-right: 1rem;
-                }
-                input{
-                    width: 2rem;
-                }
+                
             }
             .submit{
                 width: 4rem;
@@ -53,6 +36,6 @@
                 }
             }
         }
-
     }
+    
 }

@@ -90,7 +90,7 @@ const Datatable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width: 180,
       renderCell: (params) => {
         const url="/admin/orders/"+params.row.id;
         return (
@@ -120,7 +120,7 @@ const Datatable = () => {
   
 
   return (
-    <div className="datatable">
+    <div className="ordertable">
       <div className="datatableTitle">
         Orders
       </div>
@@ -129,7 +129,7 @@ const Datatable = () => {
         rows={data}
         columns={categoryColumns}
         pageSize={5}
-        rowsPerPageOptions={[10]}
+        rowsPerPageOptions={[9]}
         checkboxSelection
       />
     </div>

@@ -28,7 +28,7 @@ const Datatable = () => {
     {
       field: "title",
       headerName: "Title",
-      width: 200,
+      width: 180,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
@@ -41,27 +41,22 @@ const Datatable = () => {
     {
       field: "price",
       headerName: "Price",
-      width: 100,
+      width: 120,
     },
     {
       field: "qty",
       headerName: "Quantity",
-      width: 100,
-    },
-    {
-      field:"category",
-      headerName: "Category",
       width: 120,
     },
     {
       field:"sub-categoty",
       headerName: "Sub-Category",
-      width: 120,
+      width: 130,
     },
     {
       field:"brand",
       headerName: "Brand",
-      width: 120,
+      width: 130,
     },
     {
       field: "status",
@@ -78,7 +73,7 @@ const Datatable = () => {
     {
       field: "is_featured",
       headerName: "Featured",
-      width: 100,
+      width: 90,
       renderCell: (params) => {
         return (
           <div className={`cellWithfeatured ${params.row.is_featured}`}>
@@ -90,7 +85,7 @@ const Datatable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width: 160,
       renderCell: (params) => {
         const url="/admin/products/view/"+params.row.id;
         const url2="/admin/products/edit/"+params.row.id;
@@ -118,7 +113,7 @@ const Datatable = () => {
   
 
   return (
-    <div className="datatable">
+    <div className="productdatatable">
       <div className="datatableTitle">
         Create New Product
         <Link to="/admin/products/create" className="link">
@@ -130,7 +125,7 @@ const Datatable = () => {
         rows={data}
         columns={categoryColumns}
         pageSize={5}
-        rowsPerPageOptions={[10]}
+        rowsPerPageOptions={[9]}
         checkboxSelection
       />
     </div>

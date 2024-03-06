@@ -15,9 +15,11 @@ import NewProduct from '../admin/pages/product/newproduct/NewProduct';
 import EditProduct from '../admin/pages/product/editproduct/EditProduct';
 import OrderList from '../admin/pages/order/orderlist/OrderList';
 import SingleOrder from '../admin/pages/order/singleorder/SingleOrder';
-
+import SingleCoupon from '../admin/pages/coupon/singlecoupon/SingleCoupon';
+import NewCoupon from '../admin/pages/coupon/newcoupon/NewCoupon';
 import Single from '../admin/components/single/Single';
 import New from '../admin/components/new/New';
+import CouponList from '../admin/pages/coupon/couponlist/CouponList';
 
 
 
@@ -51,10 +53,15 @@ const AdminLayout = () => {
             <Route index element={<OrderList />} />
             <Route path=":orderId" element={<SingleOrder />} />
           </Route>
+          <Route path="coupons">
+            <Route index element={<CouponList />} />
+            <Route path=":couponId" element={<SingleCoupon />} />
+            <Route path="create" element={<NewCoupon />} />
+
+          </Route>
           <Route path="users">
             <Route index element={<UserList />} />
             <Route path=":userId" element={<Single />} />
-            <Route path="create" element={<New />} />
           </Route>
         </Route>
       </Routes>

@@ -34,7 +34,7 @@ const Datatable = () => {
     },
   ];
   return (
-    <div className="datatable">
+    <div className="usertable">
       <div className="datatableTitle">
          Users
       </div>
