@@ -18,13 +18,17 @@ import SingleOrder from '../admin/pages/order/singleorder/SingleOrder';
 import SingleCoupon from '../admin/pages/coupon/singlecoupon/SingleCoupon';
 import NewCoupon from '../admin/pages/coupon/newcoupon/NewCoupon';
 import Single from '../admin/components/single/Single';
-import New from '../admin/components/new/New';
 import CouponList from '../admin/pages/coupon/couponlist/CouponList';
-
+import SignIn from '../admin/pages/login/Login';
+import AuthAdmin from '../admin/AuthAdmin';
 
 
 
 const AdminLayout = () => {
+  const {getToken}=AuthAdmin();
+  if(!getToken()){
+    return <Login />;
+  }
   return (
     <>
       <Routes>
@@ -57,12 +61,12 @@ const AdminLayout = () => {
             <Route index element={<CouponList />} />
             <Route path=":couponId" element={<SingleCoupon />} />
             <Route path="create" element={<NewCoupon />} />
-
           </Route>
           <Route path="users">
             <Route index element={<UserList />} />
             <Route path=":userId" element={<Single />} />
           </Route>
+          <Route path='sign-in' element={<SignIn/>}/>
         </Route>
       </Routes>
     </>

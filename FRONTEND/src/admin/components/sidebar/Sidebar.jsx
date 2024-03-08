@@ -10,10 +10,18 @@ import { BsCreditCardFill } from "react-icons/bs";
 import { IoSettings } from "react-icons/io5";
 import { IoLogOut } from "react-icons/io5";
 import { FaApple } from "react-icons/fa";
+import AuthAdmin from '../../AuthAdmin';
 
 
 
 const sidebar = () => {
+  const {token,logout}=AuthAdmin();
+  const handleLogout=(event)=>{
+    event.preventDefault();
+    if(token!=undefined){
+      logout();
+    }
+  }
   return (
     <div className='sidebar'>
         <div className='top'>
@@ -86,10 +94,11 @@ const sidebar = () => {
                   </Link>
                 </li>
                 <li>
-                 <Link to='/admin/logout' className="nav-link">
+                  <Link onClick={handleLogout} className="nav-link">
                     <IoLogOut className='icon'/>
                     <span>Logout</span>
                   </Link>
+                    
                 </li>
             </ul>
         </div>
