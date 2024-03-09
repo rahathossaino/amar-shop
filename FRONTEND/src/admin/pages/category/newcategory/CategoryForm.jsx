@@ -15,7 +15,6 @@ const CategoryForm = () => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     http.post('/admin/categories/store',{formData}).then(res=>{
@@ -24,7 +23,6 @@ const CategoryForm = () => {
       }
     })
   };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
