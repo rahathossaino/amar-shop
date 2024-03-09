@@ -20,12 +20,12 @@ import NewCoupon from '../admin/pages/coupon/newcoupon/NewCoupon';
 import Single from '../admin/components/single/Single';
 import CouponList from '../admin/pages/coupon/couponlist/CouponList';
 import SignIn from '../admin/pages/login/Login';
-import AuthAdmin from '../admin/AuthAdmin';
+import Admin from '../admin/Admin';
 
 
 
 const AdminLayout = () => {
-  const {getToken}=AuthAdmin();
+  const {getToken}=Admin();
   if(!getToken()){
     return <Login />;
   }
@@ -34,7 +34,7 @@ const AdminLayout = () => {
       <Routes>
         <Route path="/admin">
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="login" element={<Login />} />
+          <Route path="sign-in" element={<Login />} />
           <Route path="categories">
             <Route index element={<CategoryList />} />
             <Route path="create" element={<NewCategory />} />

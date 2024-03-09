@@ -1,13 +1,19 @@
+.success{
+    background-color: rgb(131, 241, 131);
+    
+}
+
+
 .categoryForm{
     display: flex;
     justify-content: center;
     margin-top: 2rem;
-    form{
-        height: 18rem;
-        width: 25rem;
+    .catform{
+        height: 22rem;
+        width: 22rem;
         box-shadow: 0.2rem 0.4rem 1rem 0.1rem rgba(201,201,201,0.47);
         .left{
-            padding: 2rem 5rem 2rem 3rem;
+            padding: 2rem 5rem 10rem 3rem;
             display: flex;
             flex-direction: column;
             gap:1.3rem;
@@ -31,6 +37,10 @@
                 &:hover{
                   background-color: rgb(91, 91, 253);
                 }
+            }
+            .image{
+                display: flex;
+                gap: 5rem;
             }
         }
     }

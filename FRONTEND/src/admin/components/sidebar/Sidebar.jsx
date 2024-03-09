@@ -10,12 +10,12 @@ import { BsCreditCardFill } from "react-icons/bs";
 import { IoSettings } from "react-icons/io5";
 import { IoLogOut } from "react-icons/io5";
 import { FaApple } from "react-icons/fa";
-import AuthAdmin from '../../AuthAdmin';
+import Admin from '../../Admin';
 
 
 
 const sidebar = () => {
-  const {token,logout}=AuthAdmin();
+  const {token,logout}=Admin();
   const handleLogout=(event)=>{
     event.preventDefault();
     if(token!=undefined){

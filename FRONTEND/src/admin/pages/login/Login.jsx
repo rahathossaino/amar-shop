@@ -12,7 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AuthAdmin from '../../AuthAdmin';
+import Admin from '../../Admin';
+
+
 
 function Copyright(props) {
   return (
@@ -31,7 +33,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const {http,setToken}=AuthAdmin();
+  const {http,setToken}=Admin();
 
   const handleSubmit = (event) => {
     event.preventDefault();

@@ -1,12 +1,15 @@
-import React,{useState} from 'react'
+import React,{useState} from 'react';
+import Admin from '../../../Admin';
 import './categoryform.scss';
 
 
 const CategoryForm = () => {
+  const {http}=Admin();
     const [formData, setFormData] = useState({
         name: '',
         slug:'',
-        file: null
+        image: null,
+        message:''
       });
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -15,17 +18,29 @@ const CategoryForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    http.post('/admin/categories/store',{formData}).then(res=>{
+      if(res.data.status===200){
+        setFormData({ ...formData, message: res.data.result });
+      }
+    })
   };
 
-  const handleFileChange = (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setFormData({ ...formData, file });
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setFormData({ ...formData, image: reader.result });
+      };
+    }
   };
-
+  if(formData.message){
+    return <h2 className='success'>{formData.message}</h2>
+  }
   return (
     <div className='categoryForm'>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='catform'>
             <div className="left">
                 <div>
                     <label>
@@ -51,20 +66,20 @@ const CategoryForm = () => {
                         />
                     </label>
                 </div>
-                <div>
+                <div >                    
                     <label>
                         Image:
-                        <input
-                        type="file"
-                        name="image"
-                        onChange={handleFileChange}
-                        />
-                    </label>
+                        <input type="file" accept="image/*" name='image' onChange={handleImageChange} />
+                    </label>  
                 </div>
-                <button type="submit" className='submit'>Submit</button>
-            </div>
-            <div className="right">
-
+                <div className="image">
+                    <button type="submit" className='submit'>Submit</button>
+                    {formData.image && (
+                        <div className='img'>
+                            <img src={formData.image} alt="Uploaded" style={{height:'9rem',width:'9rem'}}/>
+                        </div>
+                    )}
+                </div>
             </div>
         </form>
     </div>
