@@ -14,6 +14,7 @@ class SubCategoryController extends Controller
     public function index(){
         try{
             $subcategories=SubCategory::select('sub_categories.*','categories.name as categoryName')
+                            ->leftJoin('categories','categories.id','sub_categories.category_id')
                             ->where('status',1)->get();
             return response()->json([
                 'subcategories'=>$subcategories
@@ -28,7 +29,7 @@ class SubCategoryController extends Controller
         try {
             $validator=Validator::make($request->all(),[
                 'name'=>'required|string',
-                'slug'=>'required|unique:categories',
+                'slug'=>'required|unique:sub_categories',
                 'image'=>'required'
             ]);
 

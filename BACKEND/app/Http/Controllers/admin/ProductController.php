@@ -14,7 +14,11 @@ class ProductController extends Controller
 {
     public function index(){
         try{
-            $products=Product::where('status',1)->get();
+            $products=Product::select('products.*','categories.name as categoryName','sub_categories.name as subcategoryName')
+                            ->leftJoin('categories','categories.id','products.category_id')
+                            ->leftJoin('sub_categories','sub_categories.id','products.sub_category_id')
+                            ->leftJoin('brands','brands.id','products.brand_id')
+                            ->where('status',1)->get();
             return response()->json([
                 'products'=>$products
             ],200);
