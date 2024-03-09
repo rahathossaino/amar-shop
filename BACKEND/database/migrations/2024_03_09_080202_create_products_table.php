@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('brand_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('slug');
-            $table->string('short_description');
-            $table->string('description');
+            $table->text('short_description');
+            $table->text('description');
             $table->double('price',10,2);
             $table->double('price_of_day',10,2)->nullable();
             $table->enum('track_qty',['yes','no'])->default('no');

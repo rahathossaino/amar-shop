@@ -29,7 +29,6 @@ class CategoryController extends Controller
             $validator=Validator::make($request->all(),[
                 'name'=>'required|string',
                 'slug'=>'required|unique:categories',
-//                'image'=>'required'
             ]);
 
             if($validator->passes()){
@@ -37,14 +36,14 @@ class CategoryController extends Controller
                 $category->name=$request->name;
                 $category->slug=$request->slug;
                 $category->save();
-                if(!empty($request->image)){
-                    $image=$request->image;
-                    $ext=$image->getOriginalExtension();
-                    $newImage=$category->id.'-'.time().'.'.$ext;
-                    $image->move(public_path().'/upload/category/',$newImage);
-                    $category->image=public_path().'/upload/category/'.$image;
-                    $category->save();
-                }
+//                if(!empty($request->image)){
+//                    $img=$request->image;
+//                    $ext=$img->getClientOriginalExtension();
+//                    $newImage=$category->id.'-'.time().'.'.$ext;
+//                    $img->move(public_path().'/upload/category/',$newImage);
+//                    $category->image=public_path().'/upload/category/'.$newImage;
+//                    $category->save();
+//                }
                 return response()->json([
                     'message'=>'Category added successfully'
                 ],200);

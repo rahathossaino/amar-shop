@@ -9,7 +9,6 @@ const CategoryForm = () => {
         name: '',
         slug:'',
         image: null,
-        message:''
       });
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -17,7 +16,7 @@ const CategoryForm = () => {
     };
   const handleSubmit = (e) => {
     e.preventDefault();
-    http.post('/admin/categories/store',{formData}).then(res=>{
+    http.post('/admin/categories/store',{...formData}).then(res=>{
       if(res.data.status===200){
         setFormData({ ...formData, message: res.data.result });
       }
@@ -65,18 +64,18 @@ const CategoryForm = () => {
                     </label>
                 </div>
                 <div >                    
-                    <label>
+                    {/* <label>
                         Image:
                         <input type="file" accept="image/*" name='image' onChange={handleImageChange} />
                     </label>  
                 </div>
-                <div className="image">
+                <div className="image"> */}
                     <button type="submit" className='submit'>Submit</button>
-                    {formData.image && (
+                    {/* {formData.image && (
                         <div className='img'>
                             <img src={formData.image} alt="Uploaded" style={{height:'9rem',width:'9rem'}}/>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
         </form>

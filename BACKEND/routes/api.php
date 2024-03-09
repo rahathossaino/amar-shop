@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\SubCategoryController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\OrderController;
 
 
 /*
@@ -51,6 +52,9 @@ Route::group(['prefix' => 'admin'], function (){
         Route::post('/products', [ProductController::class,'index']);
         Route::post('/products/store', [ProductController::class,'store']);
         Route::post('/products/delete/{id}', [ProductController::class,'destroy']);
+
+        Route::post('/orders', [OrderController::class,'index']);
+
     });
 });
 
