@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import Admin from '../../../Admin';
 import './categoryform.scss';
 
@@ -10,18 +10,29 @@ const CategoryForm = () => {
         slug:'',
         image: null,
       });
+      const[response,setResponse]=useState({
+        error:'',
+        message:''
+      });
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
   const handleSubmit = (e) => {
     e.preventDefault();
-    http.post('/admin/categories/store',{...formData}).then(res=>{
-      if(res.data.status===200){
-        setFormData({ ...formData, message: res.data.result });
+    http.post('/admin/categories/store',{...formData})
+    .then(res => {
+      if (res.data.status === 200) {
+          setResponse({ ...response, message: res.data.message });
+      } else {
+          setResponse({ ...response, error: res.data.errors });
       }
     })
+    .catch(error => {
+      console.error('Error submitting form:', error);
+    });
   };
+  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -32,8 +43,9 @@ const CategoryForm = () => {
       };
     }
   };
-  if(formData.message){
-    return <h2 className='success'>{formData.message}</h2>
+  
+  if(response.message){
+    return <h2 className='resuccess'>{response.message}</h2>
   }
   return (
     <div className='categoryForm'>
@@ -50,6 +62,8 @@ const CategoryForm = () => {
                         placeholder='Category name..'
                         />
                     </label>
+                    {response.message && <p className='success'>{response.message}</p>}
+                    {response.error && <p className='error'>{response.error}</p>}
                 </div>
                 <div>
                     <label>
@@ -62,6 +76,8 @@ const CategoryForm = () => {
                         placeholder='Category slug..'
                         />
                     </label>
+                    {response.message && <p className='success'>{response.message}</p>}
+                    {response.error && <p className='error'>{response.error}</p>}
                 </div>
                 <div >                    
                     {/* <label>

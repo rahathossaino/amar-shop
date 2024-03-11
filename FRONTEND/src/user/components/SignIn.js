@@ -12,9 +12,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Admin from '../../Admin';
-import toast from 'react-hot-toast';
-
 
 function Copyright(props) {
   return (
@@ -29,25 +26,16 @@ function Copyright(props) {
   );
 }
 
-
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
-  const {http,setToken}=Admin();
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    try{
-      toast.loading('Logging in...')
-      const data = new FormData(event.currentTarget);
-      http.post('/login',{email: data.get('email'),password: data.get('password')}).then(res=>{
-          setToken(res.data.user,res.data.access_token);
-          toast.success('Logged in successfully');
-      })
-    }catch(error){
-      toast.error('Something went wrong.Try again!');
-    }
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
   };
 
   return (
@@ -103,12 +91,12 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/user/forget-password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/user/sign-up" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

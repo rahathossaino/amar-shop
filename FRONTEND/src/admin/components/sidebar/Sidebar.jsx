@@ -84,7 +84,7 @@ const sidebar = () => {
                 <li>
                   <Link to='/admin/settings' className="nav-link">
                     <IoSettings className='icon'/>
-                    <span>Setings</span>
+                    <span>Settings</span>
                   </Link>
                 </li>
                 <li>

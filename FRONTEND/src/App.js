@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import UserLayout from "./layouts/UserLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import { Toaster } from 'react-hot-toast';
 
 
 
@@ -33,6 +34,7 @@ const App = () => {
   const url=window.location.href;
   return(
     <ThemeProvider theme={theme}>
+      <Toaster position='top-center' toastOptions={{duration:1500}}/>
       <BrowserRouter>
         {url.includes('admin')  ? <AdminLayout/> : <UserLayout/> }
       </BrowserRouter>

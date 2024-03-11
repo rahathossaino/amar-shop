@@ -16,7 +16,9 @@ const Navbar = () => {
                 <li ><NavLink to="/products" className="navbar-link">Products</NavLink></li>
                 <li ><NavLink to="/contact" className="navbar-link">Contact</NavLink></li>
                 <li>
-                  <Button>log in</Button>
+                  <Button style={{height:'4rem',width:'8rem',padding:'0'}}>
+                    <NavLink to="/user/sign-in" className="navbar-link">Log In</NavLink> 
+                  </Button>
                 </li>
                 <li >
                     <NavLink to="/cart" className="navbar-link cart-trolley--link">

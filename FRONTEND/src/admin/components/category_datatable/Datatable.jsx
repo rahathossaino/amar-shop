@@ -1,43 +1,37 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Admin from "../../Admin";
 
-
-const userRows =[{
-    id: 1,
-    name: "Snow",
-    slug:'snow',
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "active",
-  }]
 
 const Datatable = () => {
-
-  const [data, setData] = useState(userRows);
-
+  const[categories,setCategory]=useState({});
+  const {http}=Admin();
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
   };
   const handleEdit = (id) => {
-    setData(data.filter((item) => item.id === id));
   };
-
-
+  const userData=()=>{
+    try{
+      http.get('/admin/categories')
+      .then(res=>{
+        setCategory(res.data.categories);
+      })
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    console.log(categories);
+    userData();
+  },[categories]);
   const categoryColumns = [
     { field: "id", headerName: "ID", width: 70 },
     {
       field: "name",
       headerName: "Name",
       width: 250,
-      renderCell: (params) => {
-        return (
-          <div className="cellWithImg">
-            <img className="cellImg" src={params.row.img} alt="avatar" />
-            {params.row.name}
-          </div>
-        );
-      },
     },
     {
       field: "slug",
@@ -92,7 +86,7 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={categories}
         columns={categoryColumns}
         pageSize={5}
         rowsPerPageOptions={[9]}

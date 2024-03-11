@@ -7,9 +7,7 @@ const data = [
   {name:'March',Total:1400},
   {name:'April',Total:500},
   {name:'May',Total:700},
-  {name:'June',Total:100}
-
-  
+  {name:'June',Total:100}  
 ];
 
 const Chart = ({aspect,title}) => {

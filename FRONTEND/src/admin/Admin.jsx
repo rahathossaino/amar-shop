@@ -4,8 +4,8 @@ import { useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 
 
-const Admin = () => {
 
+const Admin = () => {
   const navigate=useNavigate();
   const getToken=()=>{
     const tokenString=sessionStorage.getItem('token');
@@ -20,8 +20,9 @@ const Admin = () => {
   const[token,setToken]=useState(getToken());
   const[user,setUser]=useState(getUser());
   const logout=()=>{
+    console.log('logout')
     sessionStorage.clear();
-    navigate('/admin/login');
+    navigate('/admin/sign-in');
   }
   const saveToken=(token,user)=>{
     sessionStorage.setItem('token',JSON.stringify(token));

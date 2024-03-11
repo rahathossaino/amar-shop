@@ -20,14 +20,15 @@ import NewCoupon from '../admin/pages/coupon/newcoupon/NewCoupon';
 import Single from '../admin/components/single/Single';
 import CouponList from '../admin/pages/coupon/couponlist/CouponList';
 import SignIn from '../admin/pages/login/Login';
+import Setting from '../admin/pages/settings/Setting';
 import Admin from '../admin/Admin';
 
 
-
 const AdminLayout = () => {
+
   const {getToken}=Admin();
   if(!getToken()){
-    return <Login />;
+    return <Login/>
   }
   return (
     <>
@@ -67,6 +68,8 @@ const AdminLayout = () => {
             <Route path=":userId" element={<Single />} />
           </Route>
           <Route path='sign-in' element={<SignIn/>}/>
+          <Route path='settings' element={<Setting/>}/>
+
         </Route>
       </Routes>
     </>
