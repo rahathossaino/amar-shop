@@ -1,10 +1,14 @@
 import React,{useEffect, useState} from 'react';
 import Admin from '../../../Admin';
 import './categoryform.scss';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const CategoryForm = () => {
   const {http}=Admin();
+  const navigate=useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         slug:'',
@@ -20,16 +24,17 @@ const CategoryForm = () => {
     };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const loading=toast.loading('Category adding...')
     http.post('/admin/categories/store',{...formData})
     .then(res => {
-      if (res.data.status === 200) {
-          setResponse({ ...response, message: res.data.message });
-      } else {
-          setResponse({ ...response, error: res.data.errors });
+      if(res.status==200){
+        toast.dismiss(loading);
+        navigate('/admin/categories');
+        toast.success('Category added successfully');
       }
     })
     .catch(error => {
-      console.error('Error submitting form:', error);
+      toast.error('Something Went Wrong');
     });
   };
   

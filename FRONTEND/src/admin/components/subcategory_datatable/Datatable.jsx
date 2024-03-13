@@ -1,28 +1,47 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import Admin from "../../Admin";
+import toast from 'react-hot-toast';
 
 
-const userRows =[{
-    id: 1,
-    name: "Snow",
-    slug:'snow',
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    category:'electronic',
-    status: "active",
-  }]
 
 const Datatable = () => {
-
-  const [data, setData] = useState(userRows);
-
+  const [subcategories, setSubcategory] = useState([]);
+  const {http}=Admin();
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    const loading=toast.loading('Subcategory deleting...');
+    const url='/admin/subcategories/delete/'+id;
+    try{   
+      http.post(url)
+      .then(res=>{
+        setSubcategory(subcategories.filter((item) => item.id !== id));
+        toast.dismiss(loading);
+        toast.success('Subcategory deleted successfully');
+      })
+      .catch(error=>{
+        toast.dismiss(loading);
+        toast.error("Subcategory Doesn't exist");
+      })
+    }catch(error){
+      toast.dismiss(loading);
+      toast.error('Something went wrong')
+    }
   };
-  const handleEdit = (id) => {
-    setData(data.filter((item) => item.id === id));
-  };
+  // const userData=()=>{
+  //   try{
+  //     http.get('/admin/subcategories')
+  //     .then(res=>{
+  //       setSubcategory(res.data.subcategories);
+  //     })
+  //   }catch(error){
+  //     console.log(error);
+  //   }
+  // }
+  // useEffect(()=>{
+  //   userData();
+  // },[]);
 
 
   const categoryColumns = [
@@ -31,14 +50,6 @@ const Datatable = () => {
       field: "name",
       headerName: "Name",
       width: 230,
-      renderCell: (params) => {
-        return (
-          <div className="cellWithImg">
-            <img className="cellImg" src={params.row.img} alt="avatar" />
-            {params.row.name}
-          </div>
-        );
-      },
     },
     {
       field: "slug",
@@ -46,7 +57,7 @@ const Datatable = () => {
       width: 230,
     },
     {
-        field: "category",
+        field: "categoryName",
         headerName: "Category",
         width: 230,
     },
@@ -77,7 +88,7 @@ const Datatable = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleEdit(params.row.id)}
+              // onClick={() => handleEdit(params.row.id)}
             >
               Edit
             </div>
@@ -98,7 +109,7 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={subcategories}
         columns={categoryColumns}
         pageSize={6}
         rowsPerPageOptions={[9]}

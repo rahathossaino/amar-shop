@@ -50,12 +50,7 @@ Route::group(['prefix' => 'admin'], function (){
         Route::post('/categories/delete/{id}', [CategoryController::class,'destroy']);
         Route::get('/categories/get-subcategory/{id}', [CategoryController::class,'getSubCategory']);
 
-
-        Route::get('/subcategories', [CategoryController::class,'index']);
-        Route::post('/subcategories/store', [SubCategoryController::class,'store']);
-        Route::post('/subcategories/delete/{id}', [SubCategoryController::class,'destroy']);
-
-        Route::get('/subcategories', [CategoryController::class,'index']);
+        Route::get('/subcategories', [SubCategoryController::class,'index']);
         Route::post('/subcategories/store', [SubCategoryController::class,'store']);
         Route::post('/subcategories/delete/{id}', [SubCategoryController::class,'destroy']);
 

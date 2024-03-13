@@ -1,27 +1,50 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+import Admin from "../../Admin";
+import toast from 'react-hot-toast';
 
 
-const userRows =[{
-    id: 1,
-    title: "Snow",
-    slug:'snow',
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "inactive",
-  }]
 
 const Datatable = () => {
 
-  const [data, setData] = useState(userRows);
-
+  const navigate=useNavigate();
+  const [products, setProduct] = useState([]);
+  const {http}=Admin();
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    const loading=toast.loading('Product deleting...');
+    const url='/admin/products/delete/'+id;
+    try{   
+      http.post(url)
+      .then(res=>{
+        setProduct(products.filter((item) => item.id !== id));
+        toast.dismiss(loading);
+        toast.success('Product deleted successfully');
+      })
+      .catch(error=>{
+        toast.dismiss(loading);
+        navigate('/admin/products')
+        toast.error("Product Doesn't exist");
+      })
+    }catch(error){
+      toast.dismiss(loading);
+      toast.error('Something went wrong')
+    }
   };
-  const handleEdit = (id) => {
-    setData(data.filter((item) => item.id === id));
-  };
+  const userData=()=>{
+    try{
+      http.get('/admin/products')
+      .then(res=>{
+        setProduct(res.data.products);
+      })
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    userData();
+  },[]);
 
   const categoryColumns = [
     { field: "id", headerName: "ID", width: 80 },
@@ -122,7 +145,7 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={products}
         columns={categoryColumns}
         pageSize={5}
         rowsPerPageOptions={[9]}

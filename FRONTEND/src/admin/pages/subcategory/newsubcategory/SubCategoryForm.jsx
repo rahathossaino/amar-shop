@@ -1,14 +1,19 @@
 import React,{useState} from 'react'
 import './subcategoryform.scss';
+import toast from 'react-hot-toast';
+import Admin from '../../../Admin';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const SubCategoryForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         slug:'',
-        category:'',
-        file: null
+        category_id:'',
       });
+    const navigate =useNavigate();
+    const {http}=Admin();
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -16,7 +21,19 @@ const SubCategoryForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    const loading=toast.loading('Sub-Category adding...')
+    http.post('/admin/subcategories/store',{...formData})
+    .then(res => {
+      if(res.status==200){
+        toast.dismiss(loading);
+        navigate('/admin/subcategories');
+        toast.success('Sub-Category added successfully');
+      }
+    })
+    .catch(error => {
+      toast.dismiss(loading);
+      toast.error('Something Went Wrong');
+    });
   };
 
   const handleFileChange = (e) => {
@@ -55,21 +72,11 @@ const SubCategoryForm = () => {
                 <div>
                     <label>
                         Category:
-                        <select>
+                        <select name='category_id' onChange={handleInputChange}>
                             <option>Select a category</option>
-                            <option>Electronics</option>
+                            <option value='1'>Electronics</option>
                             <option>Outfit</option>
                         </select>
-                    </label>
-                </div>
-                <div>
-                    <label>
-                        Image:
-                        <input
-                        type="file"
-                        name="image"
-                        onChange={handleFileChange}
-                        />
                     </label>
                 </div>
                 <button type="submit" className='submit'>Submit</button>

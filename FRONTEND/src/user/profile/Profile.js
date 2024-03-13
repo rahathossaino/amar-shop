@@ -17,7 +17,12 @@ const Profile = () => {
 }
 
 const Wrapper=styled.section`
-  
+  .list{
+    margin:3rem 14rem;
+    background-color: #FFF;
+    display:flex;
+    gap:4rem;
+  }
 `;
 
 export default Profile;

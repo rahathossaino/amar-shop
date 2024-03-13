@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('discount_amount',10,2);
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('expires_at')->nullable();
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

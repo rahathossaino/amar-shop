@@ -1,5 +1,8 @@
 import React,{useState} from 'react'
 import './editform.scss';
+import Admin from '../../../Admin';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 const ProductForm = () => {
@@ -8,6 +11,8 @@ const ProductForm = () => {
         slug:'',
         file: null
       });
+    const navigate =useNavigate();
+    const {http}=Admin();
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -15,7 +20,18 @@ const ProductForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    const loading=toast.loading('Product adding...')
+    http.post('/admin/products/edit/',{...formData})
+    .then(res => {
+      if(res.status==200){
+        toast.dismiss(loading);
+        navigate('/admin/products');
+        toast.success('Product added successfully');
+      }
+    })
+    .catch(error => {
+      toast.error('Something Went Wrong');
+    });
   };
 
   const handleFileChange = (e) => {

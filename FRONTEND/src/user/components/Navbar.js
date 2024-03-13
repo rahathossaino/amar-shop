@@ -16,9 +16,9 @@ const Navbar = () => {
                 <li ><NavLink to="/products" className="navbar-link">Products</NavLink></li>
                 <li ><NavLink to="/contact" className="navbar-link">Contact</NavLink></li>
                 <li>
-                  <Button style={{height:'4rem',width:'8rem',padding:'0'}}>
-                    <NavLink to="/user/sign-in" className="navbar-link">Log In</NavLink> 
-                  </Button>
+                  <button className='btn'>
+                    <NavLink to="/user/sign-in" className="navbar-link--btn">Log In</NavLink> 
+                  </button>
                 </li>
                 <li >
                     <NavLink to="/cart" className="navbar-link cart-trolley--link">
@@ -43,6 +43,25 @@ const Nav=styled.nav`
   display:flex;
   gap:3.8rem;
   align-items:center
+}
+.btn{
+  padding:0 0.5rem;
+  .navbar-link--btn{
+    &:link,
+    &:visited{
+      display:inline-block;
+      text-decoration:none;
+      font-size:1.8rem;
+      font-weight:500;
+      text-transform:uppercase;
+      color:${({theme})=>theme.colors.black};
+      transition:color 0.3s linear
+    }
+    &:hover,
+    &:active{
+      color:gray;
+    }
+  }
 }
 .navbar-link{
   &:link,

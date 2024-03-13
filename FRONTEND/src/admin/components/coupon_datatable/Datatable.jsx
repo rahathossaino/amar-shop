@@ -1,26 +1,48 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-
-
-const userRows =[{
-    id: 1,
-    name: "Snow",
-    code:'snow',
-    status: "active",
-  }]
+import { Link,useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+import Admin from "../../Admin";
+import toast from 'react-hot-toast';
 
 const Datatable = () => {
 
-  const [data, setData] = useState(userRows);
-
+  const navigate=useNavigate();
+  const [coupons, setCoupon] = useState([]);
+  const {http}=Admin();
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    const loading=toast.loading('Coupon deleting...');
+    const url='/admin/coupons/delete/'+id;
+    try{
+      http.post(url)
+      .then(res=>{
+        setCoupon(coupons.filter((item) => item.id !== id));
+        toast.dismiss(loading);
+        toast.success('Coupon deleted successfully');
+      })
+      .catch(error=>{
+        toast.dismiss(loading);
+        navigate('/admin/coupons')
+        toast.error("Coupon Doesn't exist");
+      })
+    }catch(error){
+      toast.error('Something went wrong')
+    }
   };
-  const handleEdit = (id) => {
-    setData(data.filter((item) => item.id === id));
-  };
+  const userData=()=>{
+    try{
+      http.get('/admin/coupons')
+      .then(res=>{
+        setCoupon(res.data.coupons);
+      })
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    userData();
+  },[]);
+
 
 
   const categoryColumns = [
@@ -64,7 +86,7 @@ const Datatable = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleEdit(params.row.id)}
+              // onClick={() => handleEdit(params.row.id)}
             >
               Edit
             </div>
@@ -91,7 +113,7 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={coupons}
         columns={categoryColumns}
         pageSize={5}
         rowsPerPageOptions={[9]}

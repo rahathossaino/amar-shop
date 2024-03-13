@@ -1,6 +1,8 @@
 import React,{useState} from 'react'
 import './couponform.scss';
-
+import toast from 'react-hot-toast';
+import Admin from '../../../Admin';
+import { useNavigate } from 'react-router-dom';
 
 const CouponForm = () => {
     const [formData, setFormData] = useState({
@@ -8,15 +10,28 @@ const CouponForm = () => {
         slug:'',
         file: null
       });
+    const navigate =useNavigate();
+    const {http}=Admin();
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(e.target);
-  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const loading=toast.loading('Coupon adding...')
+        http.post('/admin/coupons/store',{...formData})
+        .then(res => {
+          if(res.status==200){
+            toast.dismiss(loading);
+            navigate('/admin/coupons');
+            toast.success('Coupon added successfully');
+          }
+        })
+        .catch(error => {
+          toast.error('Something Went Wrong');
+        });
+      };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];

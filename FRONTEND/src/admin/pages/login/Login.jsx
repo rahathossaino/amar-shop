@@ -38,14 +38,26 @@ export default function SignIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const loading=toast.loading('Logging in...');
+    const status='';
     try{
-      toast.loading('Logging in...')
       const data = new FormData(event.currentTarget);
       http.post('/login',{email: data.get('email'),password: data.get('password')}).then(res=>{
-          setToken(res.data.user,res.data.access_token);
-          toast.success('Logged in successfully');
+          if(res.status===200){
+            setToken(res.data.user,res.data.access_token);
+            toast.dismiss(loading);
+            toast.success('Logged in successfully');
+          }
+          else{
+            toast.dismiss(loading);
+            toast.error('Unauthorized.Either email or password is wrong!');
+          }
+      }).catch(error=>{
+        toast.dismiss(loading);
+        toast.error('Something went wrong.Try again!');
       })
     }catch(error){
+      toast.dismiss(loading);
       toast.error('Something went wrong.Try again!');
     }
   };

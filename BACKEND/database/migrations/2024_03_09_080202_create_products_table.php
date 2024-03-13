@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('qty')->nullable();
             $table->enum('is_featured',['yes','no'])->default('no');
             $table->string('sku');
-            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

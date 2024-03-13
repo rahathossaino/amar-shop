@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->text('comment');
             $table->double('rating',3,2);
-            $table->integer('status')->default(0);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

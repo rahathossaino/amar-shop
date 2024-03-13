@@ -13,11 +13,10 @@ class SubCategoryController extends Controller
 {
     public function index(){
         try{
-            $subcategories=SubCategory::select('sub_categories.*','categories.name as categoryName')
-                            ->leftJoin('categories','categories.id','sub_categories.category_id')
-                            ->where('status',1)->get();
+            $subcategories=SubCategory::
+            where('status',1)->get();
             return response()->json([
-                'subcategories'=>$subcategories
+                'subcategories'=> $subcategories
             ],200);
         }catch(\Exception $e){
             return response()->json([
@@ -30,22 +29,23 @@ class SubCategoryController extends Controller
             $validator=Validator::make($request->all(),[
                 'name'=>'required|string',
                 'slug'=>'required|unique:sub_categories',
-                'image'=>'required'
+                'category_id'=>'required'
             ]);
 
             if($validator->passes()){
                 $subcategory=new SubCategory();
                 $subcategory->name=$request->name;
                 $subcategory->slug=$request->slug;
+                $subcategory->category_id=$request->category_id;
                 $subcategory->save();
-                if(!empty($request->image)){
-                    $image=$request->image;
-                    $ext=$image->getOriginalExtension();
-                    $newImage=$subcategory->id.'-'.time().'.'.$ext;
-                    $image->move(public_path().'/upload/subcategory/',$newImage);
-                    $subcategory->image=public_path().'/upload/subcategory/'.$image;
-                    $subcategory->save();
-                }
+//                if(!empty($request->image)){
+//                    $image=$request->image;
+//                    $ext=$image->getOriginalExtension();
+//                    $newImage=$subcategory->id.'-'.time().'.'.$ext;
+//                    $image->move(public_path().'/upload/subcategory/',$newImage);
+//                    $subcategory->image=public_path().'/upload/subcategory/'.$image;
+//                    $subcategory->save();
+//                }
                 return response()->json([
                     'message'=>'Sub-Category added successfully'
                 ],200);
@@ -56,7 +56,7 @@ class SubCategoryController extends Controller
             }
         }catch (\Exception $e){
             return response()->json([
-                'error'=>'Something went wrong .Try again!'
+                'error'=>'Something went wrong .Try again! subcategory'
             ]);
         }
     }

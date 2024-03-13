@@ -15,6 +15,7 @@ class CategoryController extends Controller
     public function index(){
         try{
             $categories=Category::orderBy('name','ASC')->where('status',1)->get();
+            dd($categories);
             return response()->json([
                 'categories'=>$categories
             ],200);
@@ -65,9 +66,6 @@ class CategoryController extends Controller
                 return response()->json([
                     'message'=>"Category Doesn't exist"
                 ],404);
-            }
-            if(file_exists($category->image)){
-                File::delete($category->image);
             }
             $category->delete();
             return response()->json([

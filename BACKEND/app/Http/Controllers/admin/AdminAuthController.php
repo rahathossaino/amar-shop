@@ -42,7 +42,7 @@ class AdminAuthController extends Controller
             Auth::guard("admin")->logout();
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['error' => 'Unauthorized'], 201);
     }
 
     /**

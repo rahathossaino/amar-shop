@@ -1,27 +1,48 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+import Admin from "../../Admin";
+import toast from 'react-hot-toast';
 
-
-const userRows =[{
-    id: 1,
-    name: "Snow",
-    slug:'snow',
-    img: "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "active",
-  }]
 
 const Datatable = () => {
-
-  const [data, setData] = useState(userRows);
-
+  const navigate=useNavigate();
+  const [brands, setBrand] = useState([]);
+  const{http}=Admin();
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    const loading=toast.loading('Brand deleting...');
+    const url='/admin/brands/delete/'+id;
+    try{
+      
+      http.post(url)
+      .then(res=>{
+        setBrand(brands.filter((item) => item.id !== id));
+        toast.dismiss(loading);
+        toast.success('Brand deleted successfully');
+      })
+      .catch(error=>{
+        toast.dismiss(loading);
+        navigate('/admin/brands')
+        toast.error("Brand Doesn't exist");
+      })
+    }catch(error){
+      toast.error('Something went wrong')
+    }
   };
-  const handleEdit = (id) => {
-    setData(data.filter((item) => item.id === id));
-  };
+  const userData=()=>{
+    try{
+      http.get('/admin/brands')
+      .then(res=>{
+        setBrand(res.data.brands);
+      })
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    userData();
+  },[]);
 
 
   const barndColumns = [
@@ -71,7 +92,7 @@ const Datatable = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleEdit(params.row.id)}
+              // onClick={() => handleEdit(params.row.id)}
             >
               Edit
             </div>
@@ -92,7 +113,7 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={brands}
         columns={barndColumns}
         pageSize={5}
         rowsPerPageOptions={[9]}

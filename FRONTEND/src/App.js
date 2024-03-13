@@ -34,7 +34,7 @@ const App = () => {
   const url=window.location.href;
   return(
     <ThemeProvider theme={theme}>
-      <Toaster position='top-center' toastOptions={{duration:1500}}/>
+      <Toaster position='top-center' toastOptions={{duration:2500}}/>
       <BrowserRouter>
         {url.includes('admin')  ? <AdminLayout/> : <UserLayout/> }
       </BrowserRouter>

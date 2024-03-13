@@ -1,16 +1,33 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Admin from "../../Admin";
+import toast from 'react-hot-toast';
 
 
 const Datatable = () => {
-  const[categories,setCategory]=useState({});
+  const[categories,setCategory]=useState([]);
+  const navigate=useNavigate();
   const {http}=Admin();
   const handleDelete = (id) => {
-  };
-  const handleEdit = (id) => {
+    const loading=toast.loading('category deleting...');
+    const url='/admin/categories/delete/'+id;
+    try{
+      
+      http.post(url)
+      .then(res=>{
+        setCategory(categories.filter((item) => item.id !== id));
+        toast.dismiss(loading);
+        toast.success('category deleted successfully');
+      }).catch(error=>{
+        toast.dismiss(loading);
+        navigate('/admin/categories')
+        toast.error("Category Doesn't exist");
+      })
+    }catch(error){
+      toast.error('Something went wrong')
+    }
   };
   const userData=()=>{
     try{
@@ -23,9 +40,8 @@ const Datatable = () => {
     }
   }
   useEffect(()=>{
-    console.log(categories);
     userData();
-  },[categories]);
+  },[]);
   const categoryColumns = [
     { field: "id", headerName: "ID", width: 70 },
     {
@@ -65,7 +81,7 @@ const Datatable = () => {
             </div>
             <div
               className="editButton"
-              onClick={() => handleEdit(params.row.id)}
+              // onClick={() => handleEdit(params.row.id)}
             >
               Edit
             </div>
