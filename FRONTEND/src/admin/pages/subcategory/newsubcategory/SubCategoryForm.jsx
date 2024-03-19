@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import './subcategoryform.scss';
 import toast from 'react-hot-toast';
 import Admin from '../../../Admin';
@@ -10,8 +10,9 @@ const SubCategoryForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         slug:'',
-        category_id:'',
+        category:'',
       });
+    const [categories,setCategory]=useState({});
     const navigate =useNavigate();
     const {http}=Admin();
     const handleInputChange = (e) => {
@@ -26,21 +27,31 @@ const SubCategoryForm = () => {
     .then(res => {
       if(res.status==200){
         toast.dismiss(loading);
-        navigate('/admin/subcategories');
+        navigate('/admin/sub-categories');
         toast.success('Sub-Category added successfully');
       }
     })
-    .catch(error => {
-      toast.dismiss(loading);
-      toast.error('Something Went Wrong');
-    });
+    // .catch(error => {
+    //   toast.dismiss(loading);
+    //   toast.error(error);
+    // });
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData({ ...formData, file });
   };
-
+  const category=()=>{
+    http.get('/admin/categories')
+    .then(res => {
+      if(res.status==200){
+        setCategory(res.data.categories)
+      }
+    })
+  }
+  useEffect(()=>{
+    category()
+  },[]);
   return (
     <div className='categoryForm'>
         <form onSubmit={handleSubmit}>
@@ -72,10 +83,13 @@ const SubCategoryForm = () => {
                 <div>
                     <label>
                         Category:
-                        <select name='category_id' onChange={handleInputChange}>
+                        <select name='category' onChange={handleInputChange}>
                             <option>Select a category</option>
-                            <option value='1'>Electronics</option>
-                            <option>Outfit</option>
+                              {
+                              Array.isArray(categories) && categories.map(curr => (
+                                <option key={curr.id} value={curr.id}>{curr.name}</option>
+                              ))
+                            }   
                         </select>
                     </label>
                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\Brand;
+
 use Illuminate\Support\Facades\Validator;
 
 
@@ -12,7 +13,7 @@ class BrandController extends Controller
 {
     public function index(){
         try{
-            $brands=Brand::latest('name')->where('status',1);
+            $brands=Brand::orderBy('id','ASC')->where('status',1)->get();
             return response()->json([
                 'brands'=>$brands
             ],200);
@@ -22,6 +23,7 @@ class BrandController extends Controller
             ]);
         }
     }
+
     public function store(Request $request){
         try {
             $validator=Validator::make($request->all(),[

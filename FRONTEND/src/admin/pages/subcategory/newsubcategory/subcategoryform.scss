@@ -16,13 +16,11 @@
                 border: none;
                 border-bottom: 1px solid gray;
                 outline: none;
+                background-color: rgb(241, 244, 245);
             }
             select{
                 outline: none;
                 margin-left: 0.5rem;
-            }
-            input[type=file]{
-                border: none;
             }
             .submit{
                 height: 2rem;

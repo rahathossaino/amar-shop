@@ -32,7 +32,7 @@ const Admin = () => {
     navigate('/admin/dashboard');
   }
   const http=axios.create({
-    baseURL:'http://localhost:8000/v1',
+    baseURL:'http://localhost:8000/api',
     headers:{
         'Content-type':'application/json'
     }

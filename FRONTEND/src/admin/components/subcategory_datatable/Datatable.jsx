@@ -29,19 +29,19 @@ const Datatable = () => {
       toast.error('Something went wrong')
     }
   };
-  // const userData=()=>{
-  //   try{
-  //     http.get('/admin/subcategories')
-  //     .then(res=>{
-  //       setSubcategory(res.data.subcategories);
-  //     })
-  //   }catch(error){
-  //     console.log(error);
-  //   }
-  // }
-  // useEffect(()=>{
-  //   userData();
-  // },[]);
+  const userData=()=>{
+    try{
+      http.get('/admin/subcategories')
+      .then(res=>{
+        setSubcategory(res.data.subcategories);
+      })
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    userData();
+  },[]);
 
 
   const categoryColumns = [
@@ -57,7 +57,7 @@ const Datatable = () => {
       width: 230,
     },
     {
-        field: "categoryName",
+        field: "category_name",
         headerName: "Category",
         width: 230,
     },

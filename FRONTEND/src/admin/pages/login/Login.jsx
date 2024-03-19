@@ -14,6 +14,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Admin from '../../Admin';
 import toast from 'react-hot-toast';
+import {useNavigate} from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 function Copyright(props) {
@@ -33,35 +35,35 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
-  const {http,setToken}=Admin();
-
+  const navigate=useNavigate();
+  const {http,setToken,getToken}=Admin();
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const loading=toast.loading('Logging in...');
     const status='';
     try{
       const data = new FormData(event.currentTarget);
-      http.post('/login',{email: data.get('email'),password: data.get('password')}).then(res=>{
+      http.post('/admin/login',{email: data.get('email'),password: data.get('password')}).then(res=>{
           if(res.status===200){
-            setToken(res.data.user,res.data.access_token);
+            setToken(res.data.admin,res.data.access_token);
             toast.dismiss(loading);
             toast.success('Logged in successfully');
-          }
-          else{
-            toast.dismiss(loading);
-            toast.error('Unauthorized.Either email or password is wrong!');
-          }
+          }    
       }).catch(error=>{
-        toast.dismiss(loading);
-        toast.error('Something went wrong.Try again!');
+          toast.dismiss(loading);
+          toast.error('Unauthorized.Either email or password is wrong!');
       })
     }catch(error){
       toast.dismiss(loading);
       toast.error('Something went wrong.Try again!');
     }
   };
-
+useEffect(()=>{
+  if(getToken()!=undefined){
+    navigate('/admin/dashboard')
+  }
+},[]);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

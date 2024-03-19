@@ -8,6 +8,8 @@ use App\Models\admin\ProductImage;
 use App\Models\admin\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use function PHPUnit\Framework\MockObject\object;
 
 
 class ProductController extends Controller
@@ -31,15 +33,16 @@ class ProductController extends Controller
     public function store(Request $request){
         try {
             $rules=[
-                'title'=>'required|string',
-                'slug'=>'required|unique:products',
+                'name'=>'required|string',
+                'slug'=>'required',
                 'short_description'=>'required|string',
                 'description'=>'required|string',
-                'category_id'=>'required',
-                'sub_category_id'=>'required',
-                'brand_id'=>'required',
+                'category'=>'required',
+                'subcategory'=>'required',
+                'brand'=>'required',
                 'price'=>'required|numeric',
-                'sku'=>'required'
+                'sku'=>'required',
+                'images.*' => 'image|mimes:jpeg,png,jpg|max:7500'
             ];
             if(!empty($request->track_qty) && $request->track_qty=='yes'){
                 $rules['qty']='required|numeric';
@@ -47,21 +50,38 @@ class ProductController extends Controller
             $validator=Validator::make($request->all(),$rules);
             if($validator->passes()){
                 $product=new Product();
-                $product->title=$request->title;
+                $product->title=$request->name;
                 $product->slug=$request->slug;
                 $product->short_description=$request->short_description;
                 $product->description=$request->description;
-                $product->category_id=$request->category_id;
-                $product->sub_category_id=$request->sub_category_id;
-                $product->brand_id=$request->brand_id;
+                $product->category_id=$request->category;
+                $product->subcategory_id=$request->subcategory;
+                $product->brand_id=$request->brand;
                 $product->price=$request->price;
                 $product->sku=$request->sku;
                 $product->track_qty=$request->track_qty;
                 if(!empty($request->qty)){
                     $product->qty=$request->qty;
                 }
-                //event for image processing
+                if(!empty($request->price_of_day)){
+                    $product->price_of_day=$request->price_of_day;
+                }
                 $product->save();
+//                ProductImage::store($request,$product->id);
+                if($request->hasFile('images')){
+                    foreach ($request->file('images') as $image) {
+                        $productImage=new ProductImage();
+                        $productImage->product_id=$product->id;
+                        $ext=$image->getOriginalExtension();
+                        $newImage=$product->id.'-'.time().'.'.$ext;
+                        $image->move(public_path().'/upload/product/',$newImage);
+                        $productImage->image=public_path().'/upload/product/'.$newImage;
+                        $productImage->save();
+                    }
+                }
+                else{
+                    return response()->json('fuck');
+                }
                 return response()->json([
                     'message'=>'Product added successfully'
                 ],200);
@@ -72,7 +92,7 @@ class ProductController extends Controller
             }
         }catch (\Exception $e){
             return response()->json([
-                'error'=>'Something went wrong .Try again!'
+                'error'=>'Something went wrong .Try again!'.$e
             ]);
         }
     }
@@ -98,6 +118,18 @@ class ProductController extends Controller
             return response()->json([
                 'error'=>'Something went wrong .Try again!'
             ]);
+        }
+    }
+    public function getSlug($name){
+        try{
+            $slug=Str::slug($name);
+            return response()->json([
+                'slug'=>$slug
+            ],200);
+        }catch(\Exception $e){
+            return response()->json([
+                'error'=>'Something went wrong .Try again!'
+            ],404);
         }
     }
 }

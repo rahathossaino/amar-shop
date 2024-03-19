@@ -27,6 +27,7 @@ const Datatable = () => {
         toast.error("Brand Doesn't exist");
       })
     }catch(error){
+      toast.dismiss(loading);
       toast.error('Something went wrong')
     }
   };
@@ -51,14 +52,6 @@ const Datatable = () => {
       field: "name",
       headerName: "Name",
       width: 250,
-      renderCell: (params) => {
-        return (
-          <div className="cellWithImg">
-            <img className="cellImg" src={params.row.img} alt="avatar" />
-            {params.row.name}
-          </div>
-        );
-      },
     },
     {
       field: "slug",

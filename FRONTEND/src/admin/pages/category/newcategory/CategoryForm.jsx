@@ -12,7 +12,6 @@ const CategoryForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         slug:'',
-        image: null,
       });
       const[response,setResponse]=useState({
         error:'',
@@ -34,7 +33,8 @@ const CategoryForm = () => {
       }
     })
     .catch(error => {
-      toast.error('Something Went Wrong');
+      toast.dismiss(loading);
+      toast.error(error);
     });
   };
   

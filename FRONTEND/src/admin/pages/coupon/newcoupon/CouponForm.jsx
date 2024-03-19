@@ -7,8 +7,15 @@ import { useNavigate } from 'react-router-dom';
 const CouponForm = () => {
     const [formData, setFormData] = useState({
         name: '',
-        slug:'',
-        file: null
+        code:'',
+        description:'',
+        max_uses:'',
+        max_user:'',
+        discount_amount:'',
+        min_amount:'',
+        discount_type:'',
+        starts_at:'',
+        expires_at:''
       });
     const navigate =useNavigate();
     const {http}=Admin();
@@ -29,6 +36,7 @@ const CouponForm = () => {
           }
         })
         .catch(error => {
+            toast.dismiss(loading);
           toast.error('Something Went Wrong');
         });
       };
@@ -60,10 +68,21 @@ const CouponForm = () => {
                         <input
                         type="text"
                         name="code"
-                        value={formData.slug}
+                        value={formData.code}
                         onChange={handleInputChange}
                         placeholder='Coupon code..'
                         />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Description:
+                        <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        placeholder='Coupon description..'
+                        ></textarea>
                     </label>
                 </div>
                 <div>
@@ -72,7 +91,7 @@ const CouponForm = () => {
                         <input
                         type="number"
                         name="max_uses"
-                        value={formData.name}
+                        value={formData.max_uses}
                         onChange={handleInputChange}
                         placeholder='Maximum Uses..'
                         />
@@ -84,7 +103,7 @@ const CouponForm = () => {
                         <input
                         type="number"
                         name="max_user"
-                        value={formData.slug}
+                        value={formData.max_user}
                         onChange={handleInputChange}
                         placeholder='Maximum Uses Per User..'
                         />
@@ -95,8 +114,8 @@ const CouponForm = () => {
                         Discount:
                         <input
                         type="number"
-                        name="discount"
-                        value={formData.name}
+                        name="discount_amount"
+                        value={formData.discount_amount}
                         onChange={handleInputChange}
                         placeholder='Discount..'
                         />
@@ -108,7 +127,7 @@ const CouponForm = () => {
                         <input
                         type="number"
                         name="min_amount"
-                        value={formData.slug}
+                        value={formData.min_amount}
                         onChange={handleInputChange}
                         placeholder='Minimum Amount..'
                         />
@@ -117,12 +136,36 @@ const CouponForm = () => {
                 <div>
                     <label>
                         Discount Type:
-                        <select>
-                            <option value="null">Select Dicount Type</option>
+                        <select name='discount_type' onChange={handleInputChange} value={formData.discount_type}>
+                            <option >Select Dicount Type</option>
                             <option value="fixed">Fixed</option>
                             <option value="percentage">Percentage</option>
 
                         </select>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Starts at:
+                        <input
+                        type="datetime-local"
+                        name="starts_at"
+                        value={formData.starts_at}
+                        onChange={handleInputChange}
+                        placeholder='Starts at..'
+                        />
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        Expires at:
+                        <input
+                        type="datetime-local"
+                        name="expires_at"
+                        value={formData.expires_at}
+                        onChange={handleInputChange}
+                        placeholder='Expires at..'
+                        />
                     </label>
                 </div>
                 <button type="submit" className='submit'>Submit</button>

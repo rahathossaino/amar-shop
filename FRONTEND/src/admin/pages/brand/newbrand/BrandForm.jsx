@@ -10,7 +10,6 @@ const BarndForm = () => {
     const [formData, setFormData] = useState({
         name: '',
         slug:'',
-        file: null
       });
     const navigate =useNavigate();
     const {http}=Admin();
@@ -26,19 +25,14 @@ const BarndForm = () => {
         .then(res => {
           if(res.status==200){
             toast.dismiss(loading);
-            navigate('/admin/coupons');
-            toast.success('Coupon added successfully');
+            navigate('/admin/brands');
+            toast.success('Brand added successfully');
           }
         })
         .catch(error => {
           toast.error('Something Went Wrong');
         });
       };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({ ...formData, file });
-  };
 
   return (
     <div className='categoryForm'>
@@ -68,16 +62,7 @@ const BarndForm = () => {
                         />
                     </label>
                 </div>
-                <div>
-                    <label>
-                        Image:
-                        <input
-                        type="file"
-                        name="image"
-                        onChange={handleFileChange}
-                        />
-                    </label>
-                </div>
+                
                 <button type="submit" className='submit'>Submit</button>
             </div>
             <div className="right">

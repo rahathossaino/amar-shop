@@ -15,13 +15,13 @@ class SubcategoryController extends Controller
         try{
             $subcategories=SubCategory::select('subcategories.*','categories.name as category_name')
                             ->leftJoin('categories','categories.id','subcategories.category_id')
-                            ->latest('id')->where('status',1);
+                            ->orderBy('id','ASC')->where('subcategories.status',1)->get();
             return response()->json([
                 'subcategories'=> $subcategories
             ],200);
         }catch(\Exception $e){
             return response()->json([
-                'error'=>'Something went wrong .Try again!'
+                'error'=>'Something went wrong .Try again!'.$e
             ]);
         }
     }
@@ -30,14 +30,14 @@ class SubcategoryController extends Controller
             $validator=Validator::make($request->all(),[
                 'name'=>'required|string',
                 'slug'=>'required|unique:subcategories',
-                'category_id'=>'required'
+                'category'=>'required'
             ]);
 
             if($validator->passes()){
                 $subcategory=new SubCategory();
                 $subcategory->name=$request->name;
                 $subcategory->slug=$request->slug;
-                $subcategory->category_id=$request->category_id;
+                $subcategory->category_id=$request->category;
                 $subcategory->save();
                 return response()->json([
                     'message'=>'Sub-Category added successfully'
@@ -68,6 +68,18 @@ class SubcategoryController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'error'=>'Something went wrong .Try again!'
+            ]);
+        }
+    }
+    public function getSubcategory($id){
+        try{
+            $subcategories=SubCategory::orderBy('name','ASC')->where('category_id',$id)->get();
+            return response()->json([
+                'subcategories'=> $subcategories
+            ],200);
+        }catch(\Exception $e){
+            return response()->json([
+                'error'=>'Something went wrong .Try again!'.$e
             ]);
         }
     }

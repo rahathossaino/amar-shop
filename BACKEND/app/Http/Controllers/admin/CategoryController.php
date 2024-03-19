@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(){
         try{
-            $categories=Category::latest('id')->where('status',1);
+            $categories=Category::orderBy('name','ASC')->where('status',1)->get();
             return response()->json([
                 'categories'=> $categories
             ],200);
@@ -25,23 +25,14 @@ class CategoryController extends Controller
         try {
             $validator=Validator::make($request->all(),[
                 'name'=>'required|string',
-                'slug'=>'required|unique:sub_categories',
+                'slug'=>'required|unique:categories',
             ]);
 
             if($validator->passes()){
                 $category=new Category();
                 $category->name=$request->name;
                 $category->slug=$request->slug;
-                $category->category_id=$request->category_id;
                 $category->save();
-//                if(!empty($request->image)){
-//                    $image=$request->image;
-//                    $ext=$image->getOriginalExtension();
-//                    $newImage=$subcategory->id.'-'.time().'.'.$ext;
-//                    $image->move(public_path().'/upload/subcategory/',$newImage);
-//                    $subcategory->image=public_path().'/upload/subcategory/'.$image;
-//                    $subcategory->save();
-//                }
                 return response()->json([
                     'message'=>'Category added successfully'
                 ],200);

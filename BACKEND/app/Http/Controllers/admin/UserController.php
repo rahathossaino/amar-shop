@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index(){
         try{
-            $users=User::all();
+            $users=User::where('role',1)->get();
             return response()->json([
                 'users'=>$users
             ],200);
@@ -57,7 +57,7 @@ class UserController extends Controller
         try{
             $userTransaction=OrderItem::select('order_items.*','products.name as product_name')
                 ->leftJoin('products','products.id','order_items.product_id')
-                ->where('user_id',$id)->get();
+                ->where('user_id',$id);
             return response()->json([
                 'userTransaction'=>$userTransaction
             ],200);

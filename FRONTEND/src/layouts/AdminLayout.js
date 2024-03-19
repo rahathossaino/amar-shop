@@ -27,9 +27,9 @@ import Admin from '../admin/Admin';
 const AdminLayout = () => {
 
   const {getToken}=Admin();
-  // if(!getToken()){
-  //   return <Login/>
-  // }
+  if(!getToken()){
+    return <Login/>
+  }
   return (
     <>
       <Routes>

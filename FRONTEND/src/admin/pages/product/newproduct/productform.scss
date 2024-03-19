@@ -12,6 +12,26 @@
             display: flex;
             flex-direction: column;
             gap:1.3rem;
+            .image{
+                display: flex;
+                gap: 10rem;
+                .image-input{
+                    display: flex;
+                    flex-direction: column;
+                    .image-button{
+                        cursor: pointer;
+                        margin-top: 1rem;
+                    }
+                }
+                .image-item{
+                    display: flex;
+                    .image{
+                        gap: 4rem;
+                        height: 8rem;
+                        width: 8rem;
+                    }
+                }
+            }
             textarea{
                 width: 100%;
             }
@@ -20,13 +40,16 @@
                 border: none;
                 border-bottom: 1px solid gray;
                 outline: none;
+                background-color: rgb(241, 244, 245);
             }
             input[type=file]{
                 border: none;
             }
             textarea{
                 outline: none;
-                height: 5rem; 
+                height: 5rem;
+                background-color: rgb(241, 244, 245);
+
             }
             
             select{
@@ -42,6 +65,7 @@
                 }
             }
             .submit{
+                margin-top: 2.7rem;
                 width: 4rem;
                 height: 2rem;
                 background-color: rgb(108, 108, 235);
