@@ -8,5 +8,4 @@ use App\Models\admin\ProductImage;
 
 class ProductImageController extends Controller
 {
-
 }

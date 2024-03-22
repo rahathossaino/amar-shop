@@ -6,21 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\admin\ProductImage;
 use App\Models\admin\Product;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use function PHPUnit\Framework\MockObject\object;
 
 
 class ProductController extends Controller
 {
     public function index(){
         try{
-            $products=Product::select('products.*','categories.name as category_name','subcategories.name as subcategory_name')
+            $products=Product::select('products.*','categories.name as category_name','subcategories.name as subcategory','brands.name as brand')
                         ->leftJoin('categories','categories.id','products.category_id')
                         ->leftJoin('subcategories','subcategories.id','products.subcategory_id')
                         ->leftJoin('brands','brands.id','products.brand_id')
-                        ->where('status',1);
+                        ->where('products.status',1)->get();
             return response()->json([
                 'products'=>$products
             ],200);
@@ -42,7 +42,7 @@ class ProductController extends Controller
                 'brand'=>'required',
                 'price'=>'required|numeric',
                 'sku'=>'required',
-                'images.*' => 'image|mimes:jpeg,png,jpg|max:7500'
+                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:7500'
             ];
             if(!empty($request->track_qty) && $request->track_qty=='yes'){
                 $rules['qty']='required|numeric';
@@ -67,20 +67,15 @@ class ProductController extends Controller
                     $product->price_of_day=$request->price_of_day;
                 }
                 $product->save();
-//                ProductImage::store($request,$product->id);
-                if($request->hasFile('images')){
-                    foreach ($request->file('images') as $image) {
-                        $productImage=new ProductImage();
-                        $productImage->product_id=$product->id;
-                        $ext=$image->getOriginalExtension();
-                        $newImage=$product->id.'-'.time().'.'.$ext;
-                        $image->move(public_path().'/upload/product/',$newImage);
-                        $productImage->image=public_path().'/upload/product/'.$newImage;
-                        $productImage->save();
-                    }
-                }
-                else{
-                    return response()->json('fuck');
+                foreach ($request->images as $image) {
+                    $productImage=new ProductImage();
+                    Log::info(['data'=>$image]);
+                    $productImage->product_id=$product->id;
+                    $ext = $image->getClientOriginalExtension();
+                    $newImage=$product->id.'-'.uniqid().'.'.$ext;
+                    $image->move(public_path().'/upload/product/',$newImage);
+                    $productImage->image='upload/product/'.$newImage;
+                    $productImage->save();
                 }
                 return response()->json([
                     'message'=>'Product added successfully'
@@ -88,12 +83,12 @@ class ProductController extends Controller
             }else{
                 return response()->json([
                     'errors'=>$validator->errors()
-                ],400);
+                ],422);
             }
         }catch (\Exception $e){
             return response()->json([
                 'error'=>'Something went wrong .Try again!'.$e
-            ]);
+            ],400);
         }
     }
     public function destroy($id){
@@ -117,6 +112,31 @@ class ProductController extends Controller
         }catch (\Exception $e){
             return response()->json([
                 'error'=>'Something went wrong .Try again!'
+            ]);
+        }
+    }
+    public function singleProduct($id){
+        try{
+            $product=Product::select('products.*','categories.name as category','subcategories.name as subcategory','brands.name as brand')
+                             ->leftJoin('categories','categories.id','products.category_id')
+                             ->leftJoin('subcategories','subcategories.id','products.subcategory_id')
+                             ->leftJoin('brands','brands.id','products.brand_id')
+                             ->where('products.id',$id)->with('product_images')->first();
+            if(empty($product)){
+                return response()->json([
+                    'message'=>"Product Doesn't exist"
+                ],404);
+            }
+            foreach ($product->product_images as $product_image){
+                $path=public_path().$product_image->image;
+                $product_image->image=base64_encode(File::get($path));
+            }
+            return response()->json([
+                'product'=>$product
+            ],200);
+        }catch (\Exception $e){
+            return response()->json([
+                'error'=>'Something went wrong .Try again!'.$e
             ]);
         }
     }

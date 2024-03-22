@@ -73,18 +73,20 @@ const ProductForm = () => {
         // const { images} = formData;
         const loading=toast.loading('Product adding...')
         const formDataWithImages = new FormData();
-        Object.entries({...formData}).forEach(([key, value]) => {
-            formDataWithImages.append(key, value);
+        Object.entries(formData).forEach(([key, value]) => {
+            if (key === 'images') {
+                value.forEach((file, index) => {
+                    formDataWithImages.append(`images[${index}]`, file);
+                });
+            } else {
+                formDataWithImages.append(key, value);
+            }
         });
-        // formData.images.forEach((image, index) => {
-        //     formDataWithImages.append(`image${index}`, image);
-        // });
-
         http.post('/admin/products/store',formDataWithImages)
         .then(res => {
         if(res.status==200){
             toast.dismiss(loading);
-            // navigate('/admin/products');
+            navigate('/admin/products');
             toast.success('Product added successfully');
         }
         })
@@ -100,7 +102,7 @@ const ProductForm = () => {
   },[])
   return (
     <div className='productForm'>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} enctype="multipart/form-data">
             <div className="formData">
                 <div>
                     <label>
@@ -271,6 +273,7 @@ const ProductForm = () => {
                                 onChange={handleImage}
                                 style={{ display: 'none' }}
                                 id="imageInput"
+                                name='images'
                             />
                         </label>
                         <label htmlFor="imageInput" className='image-button'>
@@ -279,7 +282,7 @@ const ProductForm = () => {
                         <button type='submit' className='submit'>Submit</button>
                     </div>    
                     <div className='image-item'>
-                        {images.length > 0 && images.map((curr,idx)=>{
+                        {images && images.map((curr,idx)=>{
                             return(
                                 <div key={idx} className='image'>
                                     <img src={curr} alt="Selected"  />

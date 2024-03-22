@@ -1,21 +1,24 @@
-import "./singleproduct.scss"
-import Sidebar from "../../../components/sidebar/Sidebar"
-import Navbar from "../../../components/navbar/Navbar"
-
-const data={
-  id: 1,
-  title: "Snow",
-  slug:'snow',
-  images: ["https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"],
-  status: "active",
-  category:"cloth",
-  subcategory:'pant',
-  short_description:'jdfjfo asfasfas  ffr qwr    ds vds g gewqf',
-  description:'dssgsgsg mtewtw wqd'
-}
+import "./singleproduct.scss";
+import Sidebar from "../../../components/sidebar/Sidebar";
+import Navbar from "../../../components/navbar/Navbar";
+import { useParams } from "react-router-dom";
+import Admin from "../../../Admin";
+import { useEffect, useState } from "react";
 
 
 const SingleProduct = () => {
+  const [product,setProduct]=useState({});
+  const{productId}=useParams();
+  const {http}=Admin();
+  const getSingleProduct=()=>{
+    http.get('/admin/products/'+productId)
+    .then(res=>{
+      setProduct(res.data.product);
+    })
+  }
+  useEffect(()=>{
+    getSingleProduct(productId)
+  },[])
   return (
     <div className="list">
       <Sidebar/>
@@ -25,66 +28,66 @@ const SingleProduct = () => {
           <div className="left">
             <div className="item">
               <span className="title">ID:</span>
-              <span>{data.id}</span>
+              <span>{product.id}</span>
             </div>
             <div className="item">
               <span className="title">Title:</span>
-              <span>{data.title}</span>
+              <span>{product.title}</span>
             </div>
             <div className="item">
               <span className="title">Slug:</span>
-              <span>{data.slug}</span>
+              <span>{product.slug}</span>
             </div>
             <div className="item">
               <span className="title">Short Description:</span>
-              <span>{data.short_description}</span>
+              <span>{product.short_description}</span>
             </div>
             <div className="item">
               <span className="title">Description:</span>
-              <span>{data.description}</span>
+              <span>{product.description}</span>
             </div>
             <div className="item">
               <span className="title">Price:</span>
-              <span>{data.price}</span>
+              <span>{product.price}</span>
             </div>
             <div className="item">
               <span className="title">Quantity:</span>
-              <span>{data.qty}</span>
+              <span>{product.qty}</span>
             </div>
             <div className="item">
               <span className="title">SKU:</span>
-              <span>{data.sku}</span>
+              <span>{product.sku}</span>
             </div>
             <div className="item">
               <span className="title">Category:</span>
-              <span>{data.category}</span>
+              <span>{product.category}</span>
             </div>
             <div className="item">
               <span className="title">Subcategory:</span>
-              <span>{data.subcategory}</span>
+              <span>{product.subcategory}</span>
             </div>
             <div className="item">
               <span className="title">Brand:</span>
-              <span>{data.brand}</span>
+              <span>{product.brand}</span>
             </div>
             <div className="item">
               <span className="title">Price of The Day:</span>
-              <span>{data.price_of_day}</span>
+              <span>{product.price_of_day}</span>
             </div>
             <div className="item">
               <span className="title">Status:</span>
-              <span>{data.status}</span>
+              <span>{product.status}</span>
             </div>
             <div className="item">
               <span className="title">Featured:</span>
-              <span>{data.is_featured}</span>
+              <span>{product.is_featured}</span>
             </div>
           </div>
 
           <div className="right">
             {
-              data.images.map((element,idx)=>{
-                return <img src={element} alt={idx} className="image"/>
+               product.product_images && product.product_images.map((element,idx)=>{
+                return <img src={`data:image/jpeg;base64,${element.image}`} alt={idx} className="image" key={idx}/>
               })
             }
           </div>

@@ -40,6 +40,7 @@ Route::group(['prefix'=>'admin'],function (){
         Route::post('/brands/delete/{id}', [BrandController::class,'destroy']);
 
         Route::get('/products', [ProductController::class,'index']);
+        Route::get('/products/{id}', [ProductController::class,'singleProduct']);
         Route::post('/products/store', [ProductController::class,'store']);
         Route::post('/products/delete/{id}', [ProductController::class,'destroy']);
         Route::post('/product/getSlug/{name}', [ProductController::class,'getSlug']);

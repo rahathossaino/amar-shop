@@ -3,42 +3,106 @@ import './editform.scss';
 import Admin from '../../../Admin';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+
 
 
 const ProductForm = () => {
+    const [categoryId,setCategoryId]=useState({});
+    const{productId}=useParams();
     const [formData, setFormData] = useState({
         name: '',
         slug:'',
-        file: null
+        price: '',
+        price_of_day: '',
+        short_description: '',
+        description: '',
+        category: '',
+        subcategory: '',
+        brand: '',
+        sku: '',
+        track_qty: '',
+        qty: '',
+        images:[]
       });
+      const images = formData.images?.map((file) => URL.createObjectURL(file));
     const navigate =useNavigate();
+    const[categories,setCategory]=useState();
+    const[subcategories,setSubcategory]=useState()
+    const[brands,setBrand]=useState()
     const {http}=Admin();
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-  const handleSubmit = (e) => {
+   const handleSubmit = (e) => {
     e.preventDefault();
-    const loading=toast.loading('Product adding...')
+    const loading=toast.loading('Product updating...')
     http.post('/admin/products/edit/',{...formData})
     .then(res => {
       if(res.status==200){
         toast.dismiss(loading);
         navigate('/admin/products');
-        toast.success('Product added successfully');
+        toast.success('Product updated successfully');
       }
     })
     .catch(error => {
       toast.error('Something Went Wrong');
     });
   };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({ ...formData, file });
+  const handleImage = (event) => {
+    setFormData({
+      ...formData,
+      product_images:null,
+      images: Array.from(event.target.files)
+    });
   };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if(name=='category'){
+        getSubCategory(value);
+    }
+};
 
+const getSlug=(e)=>{
+    http.post('/admin/product/getSlug/'+e.target.value).
+    then(res=>{
+        setFormData({ ...formData, slug: res.data.slug });
+    })
+}
+const getCategory=()=>{
+    http.get('/admin/categories')
+    .then(res => {
+        setCategory(res.data.categories)
+    })
+}
+const getSubCategory=(id)=>{
+    http.get('/admin/get-subcategories/'+id)
+    .then(res => {
+        setSubcategory(res.data.subcategories);
+    })
+}
+const getBrand=()=>{
+    http.get('/admin/brands')
+    .then(res => {
+        setBrand(res.data.brands)
+    })
+}
+  const productData=()=>{
+    try{
+      http.get('/admin/products/'+productId)
+      .then(res=>{
+        setFormData(res.data.product);
+        getSubCategory(res.data.product.category_id);
+      })
+    }catch(error){
+      console.log(error);
+    }
+  }
+  useEffect(()=>{
+    productData();
+    getCategory();
+    getBrand()
+  },[]);
+  
   return (
     <div className='productForm'>
         <form onSubmit={handleSubmit}>
@@ -88,7 +152,7 @@ const ProductForm = () => {
                         name="price_of_day"
                         value={formData.price_of_day}
                         onChange={handleInputChange}
-                        placeholder='Product slug..'
+                        placeholder='Product price of the day..'
                         />
                     </label>
                 </div>
@@ -99,7 +163,7 @@ const ProductForm = () => {
                         name="short_description"
                         value={formData.short_description}
                         onChange={handleInputChange}
-                        placeholder='Product slug..'
+                        placeholder='Product short description..'
                         ></textarea>
                     </label>
                 </div>
@@ -110,7 +174,7 @@ const ProductForm = () => {
                         name="description"
                         value={formData.description}
                         onChange={handleInputChange}
-                        placeholder='Product slug..'
+                        placeholder='Product description..'
                         ></textarea>
                     </label>
                 </div>
@@ -119,6 +183,13 @@ const ProductForm = () => {
                         Category:
                         <select name="category" onChange={handleInputChange}>
                             <option>Select category</option>
+                            {
+                              categories &&  categories.map((curr,idx)=>{
+                                    return(
+                                        <option value={curr.id} selected={curr.id===formData.category_id} key={idx}>{curr.name}</option>
+                                    )
+                                })
+                            }
                         </select>
                     </label>
                 </div>
@@ -126,8 +197,15 @@ const ProductForm = () => {
                 <div>
                     <label>
                         Sub-Category:
-                        <select name="sub_category" onChange={handleInputChange}>
+                        <select name="subcategory" onChange={handleInputChange}>
                             <option>Select sub-category</option>
+                            {
+                              subcategories &&  subcategories.map((curr,idx)=>{
+                                    return(
+                                        <option value={curr.id} selected={curr.id===formData.subcategory_id} key={idx}>{curr.name}</option>
+                                    )
+                                })
+                            }
                         </select>
                     </label>
                 </div>
@@ -136,6 +214,13 @@ const ProductForm = () => {
                         Brand:
                         <select name="brand" onChange={handleInputChange}>
                             <option>Select brand</option>
+                            {
+                              brands &&  brands.map((curr,idx)=>{
+                                    return(
+                                        <option value={curr.id} selected={curr.id===formData.brand_id} key={idx}>{curr.name}</option>
+                                    )
+                                })
+                            }
                         </select>
                     </label>
                 </div>
@@ -145,23 +230,23 @@ const ProductForm = () => {
                         <input
                             type="text"
                             name="sku"
-                            value={formData.price_of_day}
+                            value={formData.sku}
                             onChange={handleInputChange}
-                            placeholder='Product slug..'
+                            placeholder='Product sku..'
                         />
                     </label>
                 </div>
                 <div className='radiocheck'>
                     <label className='title'>Track Quantity</label>
                     <div>
-                    <div >
-                        <label for="yes">Yes</label>
-                        <input type='radio' id="yes" value='yes' name='track_qty'/>
-                    </div>
-                    <div>
-                        <label for="no">No </label>
-                        <input type='radio' id="no" value='no' name='track_qty'/>
-                    </div>
+                        <div >
+                            <label htmlFor="yes">Yes</label>
+                            <input type='radio' id="yes" value='yes' name='track_qty' checked={formData.track_qty==='yes'} onChange={handleInputChange}/>
+                        </div>
+                        <div>
+                            <label htmlFor="no">No </label>
+                            <input type='radio' id="no" value='no' name='track_qty' checked={formData.track_qty==='no'}  onChange={handleInputChange}/>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -170,21 +255,53 @@ const ProductForm = () => {
                         <input
                         type="number"
                         name="qty"
+                        value={formData.qty}
                         onChange={handleInputChange}
+                        placeholder='Qty'
                         />
                     </label>
                 </div>
-                <div>
-                    <label>
-                        Image:
-                        <input
-                        type="file"
-                        name="image"
-                        onChange={handleFileChange}
-                        />
-                    </label>
+                <div className='image'> 
+                    <div className='image-input'>
+                        <label>
+                            Image:
+                            <input
+                                multiple
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImage}
+                                style={{ display: 'none' }}
+                                id="imageInput"
+                                name='images'
+                            />
+                        </label>
+                        <label htmlFor="imageInput" className='image-button'>
+                            Choose Image
+                        </label>
+                        <button type='submit' className='submit'>Submit</button>
+                    </div>    
+                    <div className='image-item'>
+                        {
+                            formData.product_images && formData.product_images.map((curr,idx)=>{
+                                return(
+                                    <div key={idx} className='image'>
+                                        <img src={`data:image/jpeg;base64,${curr.image}`} alt="Selected"  />
+                                    </div>
+                                    )
+                                })
+                        }
+                        {
+                            images && images.map((curr,idx)=>{
+                                return(
+                                    <div key={idx} className='image'>
+                                        <img src={curr} alt="Selected"  />
+                                    </div>
+                                    )
+                                })
+                        
+                            }   
+                    </div>                              
                 </div>
-                <button type="submit" className='submit'>Submit</button>
             </div>
         </form>
     </div>

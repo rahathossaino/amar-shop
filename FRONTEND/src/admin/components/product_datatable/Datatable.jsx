@@ -8,7 +8,6 @@ import toast from 'react-hot-toast';
 
 
 const Datatable = () => {
-
   const navigate=useNavigate();
   const [products, setProduct] = useState([]);
   const {http}=Admin();
@@ -51,15 +50,15 @@ const Datatable = () => {
     {
       field: "title",
       headerName: "Title",
-      width: 180,
-      renderCell: (params) => {
-        return (
-          <div className="cellWithImg">
-            <img className="cellImg" src={params.row.img} alt="avatar" />
-            {params.row.name}
-          </div>
-        );
-      },
+      width: 250,
+      // renderCell: (params) => {
+      //   return (
+      //     <div className="cellWithImg">
+      //       <img className="cellImg" src={`data:image/jpeg;base64,${params.row.product_image.image}`} alt="avatar" />
+      //       {params.row.name}
+      //     </div>
+      //   );
+      // },
     },
     {
       field: "price",
@@ -72,7 +71,7 @@ const Datatable = () => {
       width: 120,
     },
     {
-      field:"sub-categoty",
+      field:"subcategory",
       headerName: "Sub-Category",
       width: 130,
     },
