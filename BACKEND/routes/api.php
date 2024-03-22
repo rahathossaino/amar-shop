@@ -42,6 +42,7 @@ Route::group(['prefix'=>'admin'],function (){
         Route::get('/products', [ProductController::class,'index']);
         Route::get('/products/{id}', [ProductController::class,'singleProduct']);
         Route::post('/products/store', [ProductController::class,'store']);
+        Route::post('/products/edit/{id}', [ProductController::class,'update']);
         Route::post('/products/delete/{id}', [ProductController::class,'destroy']);
         Route::post('/product/getSlug/{name}', [ProductController::class,'getSlug']);
 

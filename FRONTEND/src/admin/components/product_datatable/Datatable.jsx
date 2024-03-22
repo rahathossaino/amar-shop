@@ -50,35 +50,32 @@ const Datatable = () => {
     {
       field: "title",
       headerName: "Title",
-      width: 250,
-      // renderCell: (params) => {
-      //   return (
-      //     <div className="cellWithImg">
-      //       <img className="cellImg" src={`data:image/jpeg;base64,${params.row.product_image.image}`} alt="avatar" />
-      //       {params.row.name}
-      //     </div>
-      //   );
-      // },
+      width: 230,
     },
     {
       field: "price",
       headerName: "Price",
-      width: 120,
+      width: 100,
     },
     {
       field: "qty",
       headerName: "Quantity",
+      width: 100,
+    },
+    {
+      field: "category_name",
+      headerName: "Category",
       width: 120,
     },
     {
       field:"subcategory",
       headerName: "Sub-Category",
-      width: 130,
+      width: 120,
     },
     {
       field:"brand",
       headerName: "Brand",
-      width: 130,
+      width: 120,
     },
     {
       field: "status",
@@ -107,7 +104,7 @@ const Datatable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 160,
+      width: 180,
       renderCell: (params) => {
         const url="/admin/products/view/"+params.row.id;
         const url2="/admin/products/edit/"+params.row.id;

@@ -12,21 +12,22 @@ const ProductForm = () => {
     const [categoryId,setCategoryId]=useState({});
     const{productId}=useParams();
     const [formData, setFormData] = useState({
-        name: '',
+        title: '',
         slug:'',
         price: '',
         price_of_day: '',
         short_description: '',
         description: '',
-        category: '',
-        subcategory: '',
-        brand: '',
+        category_id: '',
+        subcategory_id: '',
+        brand_id: '',
         sku: '',
         track_qty: '',
         qty: '',
+        is_featured:'',
         images:[]
       });
-      const images = formData.images?.map((file) => URL.createObjectURL(file));
+    const images = formData.images?.map((file) => URL.createObjectURL(file));
     const navigate =useNavigate();
     const[categories,setCategory]=useState();
     const[subcategories,setSubcategory]=useState()
@@ -35,7 +36,17 @@ const ProductForm = () => {
    const handleSubmit = (e) => {
     e.preventDefault();
     const loading=toast.loading('Product updating...')
-    http.post('/admin/products/edit/',{...formData})
+    const formDataWithImages = new FormData();
+        Object.entries(formData).forEach(([key, value]) => {
+            if (key === 'images') {
+                value.forEach((file, index) => {
+                    formDataWithImages.append(`images[${index}]`, file);
+                });
+            } else {
+                formDataWithImages.append(key, value);
+            }
+        });
+    http.post('/admin/products/edit/'+productId,formDataWithImages)
     .then(res => {
       if(res.status==200){
         toast.dismiss(loading);
@@ -44,6 +55,7 @@ const ProductForm = () => {
       }
     })
     .catch(error => {
+        toast.dismiss(loading);
       toast.error('Something Went Wrong');
     });
   };
@@ -105,16 +117,17 @@ const getBrand=()=>{
   
   return (
     <div className='productForm'>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="formData">
                 <div>
                     <label>
                         Name:
                         <input
                         type="text"
-                        name="name"
-                        value={formData.name}
+                        name="title"
+                        value={formData.title}
                         onChange={handleInputChange}
+                        onBlur={getSlug}
                         placeholder='Product title..'
                         />
                     </label>
@@ -148,7 +161,7 @@ const getBrand=()=>{
                     <label>
                         Price of The Day:
                         <input
-                        type="number"
+                        type="string"
                         name="price_of_day"
                         value={formData.price_of_day}
                         onChange={handleInputChange}
@@ -181,7 +194,7 @@ const getBrand=()=>{
                 <div>
                     <label>
                         Category:
-                        <select name="category" onChange={handleInputChange}>
+                        <select name="category_id" onChange={handleInputChange}>
                             <option>Select category</option>
                             {
                               categories &&  categories.map((curr,idx)=>{
@@ -197,7 +210,7 @@ const getBrand=()=>{
                 <div>
                     <label>
                         Sub-Category:
-                        <select name="subcategory" onChange={handleInputChange}>
+                        <select name="subcategory_id" onChange={handleInputChange}>
                             <option>Select sub-category</option>
                             {
                               subcategories &&  subcategories.map((curr,idx)=>{
@@ -212,7 +225,7 @@ const getBrand=()=>{
                 <div>
                     <label>
                         Brand:
-                        <select name="brand" onChange={handleInputChange}>
+                        <select name="brand_id" onChange={handleInputChange}>
                             <option>Select brand</option>
                             {
                               brands &&  brands.map((curr,idx)=>{
@@ -235,6 +248,19 @@ const getBrand=()=>{
                             placeholder='Product sku..'
                         />
                     </label>
+                </div>
+                <div className='radiocheck'>
+                    <label className='title'>Featured</label>
+                    <div>
+                        <div >
+                            <label htmlFor="yes">Yes</label>
+                            <input type='radio' id="yes" value='yes' name='is_featured' checked={formData.is_featured==='yes'} onChange={handleInputChange}/>
+                        </div>
+                        <div>
+                            <label htmlFor="no">No </label>
+                            <input type='radio' id="no" value='no' name='is_featured' checked={formData.is_featured==='no'}  onChange={handleInputChange}/>
+                        </div>
+                    </div>
                 </div>
                 <div className='radiocheck'>
                     <label className='title'>Track Quantity</label>

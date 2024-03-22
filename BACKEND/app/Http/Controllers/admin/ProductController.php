@@ -34,7 +34,7 @@ class ProductController extends Controller
         try {
             $rules=[
                 'name'=>'required|string',
-                'slug'=>'required',
+                'slug'=>'required|unique:products',
                 'short_description'=>'required|string',
                 'description'=>'required|string',
                 'category'=>'required',
@@ -69,12 +69,11 @@ class ProductController extends Controller
                 $product->save();
                 foreach ($request->images as $image) {
                     $productImage=new ProductImage();
-                    Log::info(['data'=>$image]);
                     $productImage->product_id=$product->id;
                     $ext = $image->getClientOriginalExtension();
                     $newImage=$product->id.'-'.uniqid().'.'.$ext;
                     $image->move(public_path().'/upload/product/',$newImage);
-                    $productImage->image='upload/product/'.$newImage;
+                    $productImage->image='/upload/product/'.$newImage;
                     $productImage->save();
                 }
                 return response()->json([
@@ -113,6 +112,85 @@ class ProductController extends Controller
             return response()->json([
                 'error'=>'Something went wrong .Try again!'
             ]);
+        }
+    }
+    public function update(Request $request,$id){
+        try {
+            $rules=[
+                'title'=>'required|string',
+                'slug'=>'required',
+                'short_description'=>'required|string',
+                'description'=>'required|string',
+                'category_id'=>'required',
+                'subcategory_id'=>'required',
+                'brand_id'=>'required',
+                'price'=>'required|numeric',
+                'sku'=>'required',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg|max:7500'
+            ];
+            if(!empty($request->track_qty) && $request->track_qty=='yes'){
+                $rules['qty']='required|numeric';
+            }
+            $validator=Validator::make($request->all(),$rules);
+            if($validator->passes()){
+                $product=Product::find($id);
+                if(empty($product)){
+                    return response()->json([
+                        'message'=>"Product Doesn't exist"
+                    ],404);
+                }
+                $product->title=$request->title;
+                $product->slug=$request->slug;
+                $product->short_description=$request->short_description;
+                $product->description=$request->description;
+                $product->category_id=$request->category_id;
+                $product->subcategory_id=$request->subcategory_id;
+                $product->brand_id=$request->brand_id;
+                $product->price=$request->price;
+                $product->sku=$request->sku;
+                $product->track_qty=$request->track_qty;
+                $product->is_featured=$request->is_featured;
+                if(empty($request->qty)){
+                    $product->qty=$request->qty;
+                }
+                if($request->price_of_day!=='null'){
+                    $product->price_of_day=$request->price_of_day;
+                }
+                $product->save();
+                $productImages=ProductImage::where('product_id',$id)->get();
+                if(!empty($request->images)){
+                    if(!empty($productImages)){
+                        foreach ($productImages as $productImage){
+                            if(file_exists(public_path().$productImage->image)){
+                                File::delete(public_path().$productImage->image);
+                                Log::info(['inside'=>public_path().$productImage->image]);
+                            }
+                            Log::info(['outside'=>public_path().$productImage->image]);
+                            $productImage->delete();
+                        }
+                    }
+                    foreach ($request->images as $image) {
+                        $productImage=new ProductImage();
+                        $productImage->product_id=$product->id;
+                        $ext = $image->getClientOriginalExtension();
+                        $newImage=$product->id.'-'.uniqid().'.'.$ext;
+                        $image->move(public_path().'/upload/product/',$newImage);
+                        $productImage->image='/upload/product/'.$newImage;
+                        $productImage->save();
+                    }
+                }
+                return response()->json([
+                    'message'=>'Product updated successfully'
+                ],200);
+            }else{
+                return response()->json([
+                    'errors'=>$validator->errors()
+                ],422);
+            }
+        }catch (\Exception $e){
+            return response()->json([
+                'error'=>'Something went wrong .Try again!'.$e
+            ],400);
         }
     }
     public function singleProduct($id){
