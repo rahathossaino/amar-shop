@@ -15,10 +15,10 @@ import Admin from '../../Admin';
 
 
 const sidebar = () => {
-  const {token,logout}=Admin();
+  const {admin_token,logout}=Admin();
   const handleLogout=(event)=>{
     event.preventDefault();
-    if(token!=undefined){
+    if(admin_token!=undefined){
       logout();
     }
   }

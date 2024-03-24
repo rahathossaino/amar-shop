@@ -11,7 +11,7 @@ class CouponController extends Controller
 {
     public function index(){
         try{
-            $coupons=Coupon::latest('id')->where('status',1)->get();
+            $coupons=Coupon::latest('id')->get();
             return response()->json([
                 'coupons'=>$coupons
             ],200);

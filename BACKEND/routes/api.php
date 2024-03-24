@@ -9,16 +9,34 @@ use App\Http\Controllers\admin\CouponController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\user\ShopController;
+use App\Http\Controllers\user\UserAuthController;
 
 
 
+Route::get('/categories',[ShopController::class,'category']);
+
+
+Route::group(['prefix'=>'account'],function (){
+    Route::group(['middleware'=>'guest'],function (){
+        Route::post('login',[UserAuthController::class,'login']);
+
+    });
+    Route::group(['middleware'=>'auth'],function (){
+        Route::post('logout',[UserAuthController::class,'logout']);
+        Route::post('refresh', [UserAuthController::class,'refresh']);
+        Route::post('me', [UserAuthController::class,'me']);
+    });
+});
 
 Route::group(['prefix'=>'admin'],function (){
     Route::group(['middleware'=>'admin.guest'],function (){
         Route::post('login', [AdminAuthController::class,'login']);
+        Route::get('login', [AdminAuthController::class,'authenticate']);
+
     });
-//    Route::group(['middleware' => 'admin.auth'], function () {
-        Route::get('user/{id}', [AdminAuthController::class,'user']);
+    Route::group(['middleware' => 'admin.auth'], function () {
+        Route::get('user/{id}',[AdminAuthController::class,'user']);
 
         Route::post('logout', [AdminAuthController::class,'logout']);
         Route::post('refresh', [AdminAuthController::class,'refresh']);
@@ -60,5 +78,5 @@ Route::group(['prefix'=>'admin'],function (){
         Route::post('/user-info/{id}', [UserController::class,'userInfo']);
         Route::post('/user-spending/{id}', [UserController::class,'userSpending']);
         Route::post('/user-transaction/{id}', [UserController::class,'userTransaction']);
-//    });
+    });
 });

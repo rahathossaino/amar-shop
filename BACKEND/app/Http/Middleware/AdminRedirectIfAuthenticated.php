@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 
 class AdminRedirectIfAuthenticated
 {
@@ -16,8 +17,9 @@ class AdminRedirectIfAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('admin')->check()) {
-            return \response()->json(['authentication'=>'success']);
+        Log::info($request);
+        if (Auth::check() && Auth::user()->role==0) {
+            return redirect('/api/admin/dashboard');
         }
         return $next($request);
     }

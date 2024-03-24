@@ -12,6 +12,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useNavigate} from 'react-router-dom';
+import User from './User';
+import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+
+
 
 function Copyright(props) {
   return (
@@ -29,15 +35,35 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const navigate=useNavigate();
+  const {http,setToken,getToken}=User();
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const loading=toast.loading('Logging in...');
+    try{
+      const data = new FormData(event.currentTarget);
+      http.post('/account/login',{email: data.get('email'),password: data.get('password')}).then(res=>{
+          if(res.status===200){
+            setToken(res.data.user,res.data.access_token);
+            toast.dismiss(loading);
+            toast.success('Logged in successfully');
+          }    
+      }).catch(error=>{
+          toast.dismiss(loading);
+          toast.error('Unauthorized.Either email or password is wrong!');
+      })
+    }catch(error){
+      toast.dismiss(loading);
+      toast.error('Something went wrong.Try again!');
+    }
   };
-
+  
+useEffect(()=>{
+  if(getToken()!=undefined){
+    navigate('/account/profile')
+  }
+},[]);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -56,7 +82,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
             <TextField
               margin="normal"
               required
@@ -66,6 +92,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              style={{textTransform:'lowercase'}}
             />
             <TextField
               margin="normal"
@@ -91,12 +118,12 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/user/forget-password" variant="body2">
+                <Link href="/account/forgot-password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/user/sign-up" variant="body2">
+                <Link href="/account/sign-up" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

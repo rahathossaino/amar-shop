@@ -5,7 +5,7 @@ import axios from "axios";
 
 const FilterContext = createContext();
 
-const categoryApi='';
+const categoryApi='http://127.0.0.1:8000/api/categories';
 const companyApi='';
 const colorApi='';
 const maxpriceApi='';
@@ -60,7 +60,7 @@ export const FilterProvider = ({ children }) => {
   };
   const getCategory=async (url)=>{
     const res=await axios.get(url);
-    const categories=await res.data;
+    const categories=await res.data.categories;
     dispatch({ type: "SET_CATEGORIES" ,payload:categories});
   }
   const getCompany=async (url)=>{
@@ -107,7 +107,7 @@ export const FilterProvider = ({ children }) => {
      getMinPrice(minpriceApi);
      getPrice(priceApi)
   },[]);
-
+// console.log(state.categories);
   return (
     <FilterContext.Provider
       value={{

@@ -12,7 +12,7 @@ class OrderController extends Controller
 {
     public function index(){
         try{
-            $orders=Order::latest('id');
+            $orders=Order::latest('id')->get();
             return response()->json([
                 'orders'=>$orders
             ],200);

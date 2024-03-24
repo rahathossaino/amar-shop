@@ -23,7 +23,7 @@ const FilterSection = () => {
         <h3>Category</h3>
         <div>
           {
-            categories.map((element,idx)=>{
+             categories && categories.map((element,idx)=>{
               return (
                 <button key={idx} type="button" name='category'>
                   {element}

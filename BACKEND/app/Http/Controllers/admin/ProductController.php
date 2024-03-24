@@ -19,8 +19,7 @@ class ProductController extends Controller
             $products=Product::select('products.*','categories.name as category_name','subcategories.name as subcategory','brands.name as brand')
                         ->leftJoin('categories','categories.id','products.category_id')
                         ->leftJoin('subcategories','subcategories.id','products.subcategory_id')
-                        ->leftJoin('brands','brands.id','products.brand_id')
-                        ->where('products.status',1)->get();
+                        ->leftJoin('brands','brands.id','products.brand_id')->get();
             return response()->json([
                 'products'=>$products
             ],200);
@@ -163,9 +162,7 @@ class ProductController extends Controller
                         foreach ($productImages as $productImage){
                             if(file_exists(public_path().$productImage->image)){
                                 File::delete(public_path().$productImage->image);
-                                Log::info(['inside'=>public_path().$productImage->image]);
                             }
-                            Log::info(['outside'=>public_path().$productImage->image]);
                             $productImage->delete();
                         }
                     }

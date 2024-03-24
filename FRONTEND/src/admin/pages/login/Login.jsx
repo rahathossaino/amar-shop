@@ -36,7 +36,7 @@ const defaultTheme = createTheme();
 
 export default function SignIn() {
   const navigate=useNavigate();
-  const {http,setToken,getToken}=Admin();
+  const {http,setToken,getAdminToken}=Admin();
   
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -60,7 +60,7 @@ export default function SignIn() {
     }
   };
 useEffect(()=>{
-  if(getToken()!=undefined){
+  if(getAdminToken()!=undefined){
     navigate('/admin/dashboard')
   }
 },[]);

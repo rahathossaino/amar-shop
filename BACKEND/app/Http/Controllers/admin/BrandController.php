@@ -13,7 +13,7 @@ class BrandController extends Controller
 {
     public function index(){
         try{
-            $brands=Brand::orderBy('id','ASC')->where('status',1)->get();
+            $brands=Brand::orderBy('id','ASC')->get();
             return response()->json([
                 'brands'=>$brands
             ],200);

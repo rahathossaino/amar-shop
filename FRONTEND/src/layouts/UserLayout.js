@@ -13,13 +13,14 @@ import Cart from '../user/Cart';
 import ErrorPage from '../ErrorPage';
 import { CartProvider } from '../user/context/cartContext';
 import {GlobalStyle} from '../GlobalStyle';
-import SignUp from '../user/components/SignUp';
 import SignIn from '../user/components/SignIn';
-import ForgetPassword from '../user/components/ForgetPassword';
-import Profile from '../user/profile/Profile';
-
+import SignUp from '../user/components/SignUp';
+import User from '../user/components/User';
+import { Navigate } from 'react-router-dom';
+import {AuthenticatedRoutes} from '../user/components/AuthenticatedRoutes';
 
 const UserLayout = () => {
+  const {getToken}=User();
   return (
     <AppProvider>
         <FilterProvider>
@@ -33,11 +34,9 @@ const UserLayout = () => {
               <Route path="/contact" element={<Contact/>}/>
               <Route path="/singleproduct/:id" element={<SingleProduct/>}/>
               <Route path="/cart" element={<Cart/>}/>
-              <Route path='/user'>
-                <Route path='sign-up' element={<SignUp/>}/>
-                <Route path='sign-in' element={<Profile/>}/>
-                <Route path='forget-password' element={<ForgetPassword/>}/>
-              </Route>
+              <Route path='/account/sign-up' element={<SignUp/>}/>
+              <Route path='/account/login' element={<SignIn/>}/>
+              <Route path="/account/*" element={getToken() ? <AuthenticatedRoutes /> : <Navigate to="/account/login" />} />
               <Route path="*" element={<ErrorPage/>}/>
             </Routes>
             <Footer/>
@@ -45,6 +44,7 @@ const UserLayout = () => {
         </FilterProvider>
     </AppProvider>
   )
+  
 }
 
 export default UserLayout;

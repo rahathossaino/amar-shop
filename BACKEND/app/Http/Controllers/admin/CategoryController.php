@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(){
         try{
-            $categories=Category::orderBy('name','ASC')->where('status',1)->get();
+            $categories=Category::orderBy('name','ASC')->get();
             return response()->json([
                 'categories'=> $categories
             ],200);

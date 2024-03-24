@@ -15,7 +15,7 @@ class SubcategoryController extends Controller
         try{
             $subcategories=SubCategory::select('subcategories.*','categories.name as category_name')
                             ->leftJoin('categories','categories.id','subcategories.category_id')
-                            ->orderBy('id','ASC')->where('subcategories.status',1)->get();
+                            ->orderBy('id','ASC')->get();
             return response()->json([
                 'subcategories'=> $subcategories
             ],200);

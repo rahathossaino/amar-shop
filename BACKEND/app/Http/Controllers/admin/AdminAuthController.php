@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\User;
+
+
 class AdminAuthController extends Controller
 {
 
@@ -22,6 +24,10 @@ class AdminAuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
+    public function authenticate(){
+        return false;
+    }
     public function user($id){
         return User::find($id);
     }
@@ -62,7 +68,7 @@ class AdminAuthController extends Controller
     }
     public function changePassword(Request $request){
         try{
-            $user=Auth::guard('admin')->user();
+            $user=$this->guard()->user();
             $validator=Validator::make($request->all(),[
                 'old_password'=>'required',
                 'new_password'=>'required|min:5',
@@ -105,7 +111,7 @@ class AdminAuthController extends Controller
                     'token'=>$token,
                     'created_at'=>now()
                 ]);
-                $user=Auth::guard('admin')->user();
+                $user=Auth::guard()->user();
                 $data=[
                     'token'=>$token,
                     'email'=>$request->email,
@@ -192,6 +198,6 @@ class AdminAuthController extends Controller
      */
     public function guard()
     {
-        return Auth::guard('admin');
+        return Auth::guard();
     }
 }
