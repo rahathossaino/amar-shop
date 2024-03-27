@@ -1,23 +1,63 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { FaCheck } from "react-icons/fa";
 import CartAmountToggle from "./CartAmountToggle";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../styles/Button";
+import toast from "react-hot-toast";
+import axios from "axios";
+import User from './User';
+
+
 
 const AddToCart = ({ product }) => {
   const { id, qty } = product;
-
+  const navigate=useNavigate();
   const [amount, setAmount] = useState(1);
+  const {getToken}=User();
+  const token = getToken(); 
 
+  
   const setDecrease = () => {
     amount > 1 ? setAmount(amount - 1) : setAmount(1);
   };
-
+  const config = {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+};
   const setIncrease = () => {
     amount < qty ? setAmount(amount + 1) : setAmount(qty);
   };
+  const addToCart=async()=>{
+    if(token==undefined){
+      navigate('/account/login');
+      return false
+    }
+    const load=toast.loading('Addidng to cart...');
+    try{
+      const res=await axios.post('http://127.0.0.1:8000/api/account/cart/store/'+id,{'qty':amount},config)
+      console.log(res);
+      navigate('/cart');
+      toast.dismiss(load);
+      toast.success(res.data.message)
+    }catch(error){
+      toast.dismiss(load);
+        if (error.response) {
+            console.error(error.response.data); 
+            console.error(error.response.status); 
+            console.error(error.response.headers); 
+            toast.error(error.response.data.message || 'Something went wrong. Please try again!');
+        } else if (error.request) {
+            console.error(error.request);
+            toast.error('No response received from the server. Please try again later.');
+        } else {
+            console.error('Error', error.message);
+            toast.error('An error occurred while processing your request. Please try again.');
+        }
+        console.error(error.config);
 
+    }
+  }
   return (
     <Wrapper>
       {/* <div className="colors">
@@ -43,10 +83,7 @@ const AddToCart = ({ product }) => {
         setDecrease={setDecrease}
         setIncrease={setIncrease}
       />
-
-      <NavLink to="/cart">
-        <Button className="btn">Add To Cart</Button>
-      </NavLink>
+      <Button className="btn" onClick={addToCart}>Add To Cart</Button>
     </Wrapper>
   );
 };
@@ -82,7 +119,6 @@ const Wrapper = styled.section`
     color: #fff;
   }
 
-  /* we can use it as a global one too  */
   .amount-toggle {
     margin-top: 3rem;
     margin-bottom: 1rem;

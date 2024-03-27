@@ -41,27 +41,34 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const loading=toast.loading('Logging in...');
-    try{
+    try {
       const data = new FormData(event.currentTarget);
-      http.post('/account/login',{email: data.get('email'),password: data.get('password')}).then(res=>{
-          if(res.status===200){
-            setToken(res.data.user,res.data.access_token);
+      http.post('/account/login', { email: data.get('email'), password: data.get('password') })
+        .then(res => {
+          if (res.status === 200) {
+            setToken(res.data.user, res.data.access_token);
             toast.dismiss(loading);
             toast.success('Logged in successfully');
-          }    
-      }).catch(error=>{
+          }
+        })
+        .catch(error => {
           toast.dismiss(loading);
-          toast.error('Unauthorized.Either email or password is wrong!');
-      })
-    }catch(error){
+          if (error.response && error.response.status === 401) {
+            toast.error('Unauthorized. Either email or password is wrong!');
+          } else {
+            toast.error('Network error. Please check your internet connection and try again.');
+          }
+        });
+    } catch (error) {
       toast.dismiss(loading);
-      toast.error('Something went wrong.Try again!');
+      toast.error('Something went wrong. Please try again later.');
     }
+    
   };
   
 useEffect(()=>{
   if(getToken()!=undefined){
-    navigate('/account/profile')
+    navigate('/account/me')
   }
 },[]);
   return (

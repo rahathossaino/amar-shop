@@ -24,7 +24,7 @@ const User = () => {
     sessionStorage.setItem('user',JSON.stringify(user));
     setToken(token);
     setUser(user);
-    navigate('/account/profile');
+    navigate('/account/me');
   }
   const http=axios.create({
     baseURL:'http://localhost:8000/api',

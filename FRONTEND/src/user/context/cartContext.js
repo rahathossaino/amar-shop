@@ -1,9 +1,15 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import reducer from '../reducer/cartReducer';
 import axios from "axios";
+import User from "../components/User";
+
+
+
+
+
 
 const cartContext = createContext();
-const cartApi = '';
+const cartApi = 'http://127.0.0.1:8000/api/account/cart';
 const initialState = {
     cartItem: [],
     total_price:'',
@@ -11,13 +17,18 @@ const initialState = {
 };
 
 const CartProvider = ({ children }) => {
-    
     const [state, dispatch] = useReducer(reducer, initialState);
-
+    const {getToken}=User();
+    const token = getToken(); 
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }
     const getCartItems = async (url) => {
         try {
-            const res = await axios.get(url);
-            const items = res.data;
+            const res = await axios.get(url,config);
+            const items = res.data.cart_item;
             dispatch({ type: 'SET_CART_ITEM', payload: items });
         } catch (error) {
             console.error('Error fetching cart items:', error);
@@ -26,7 +37,6 @@ const CartProvider = ({ children }) => {
     const setDecrease = (id) => {
         dispatch({ type: "SET_DECREMENT", payload: id });
       };
-    
       const setIncrement = (id) => {
         dispatch({ type: "SET_INCREMENT", payload: id });
       };

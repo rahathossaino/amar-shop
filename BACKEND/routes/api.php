@@ -12,6 +12,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\user\UserAuthController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SingleProductController;
+use App\Http\Controllers\CartController;
 
 
 
@@ -27,6 +28,7 @@ Route::get('/singleproduct/rating/{slug}',[SingleProductController::class,'ratin
 
 
 
+
 Route::group(['prefix'=>'account'],function (){
     Route::group(['middleware'=>'guest'],function (){
         Route::post('sign-up',[UserAuthController::class,'signUp']);
@@ -37,6 +39,10 @@ Route::group(['prefix'=>'account'],function (){
         Route::post('logout',[UserAuthController::class,'logout']);
         Route::post('refresh', [UserAuthController::class,'refresh']);
         Route::post('me', [UserAuthController::class,'me']);
+        Route::get('cart',[CartController::class,'cart']);
+        Route::post('cart/store/{id}',[CartController::class,'store']);
+
+
     });
 });
 

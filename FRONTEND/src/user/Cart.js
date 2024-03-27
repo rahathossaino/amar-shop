@@ -9,13 +9,13 @@ import FormatPrice from "../helpers/FormatPrice";
 const Cart = () => {
   const {cartItem,clearCart,total_price,shipping_fee}=useCartContext();
 
-  if (cartItem.length === 0) {
-    return (
-      <EmptyDiv>
-        <h3>No Item in Cart</h3>
-      </EmptyDiv>
-    );
-  }
+  // if (cartItem.length === 0) {
+  //   return (
+  //     <EmptyDiv>
+  //       <h3>No Item in Cart</h3>
+  //     </EmptyDiv>
+  //   );
+  // }
 
   return <Wrapper>
     <div className="container">
@@ -28,7 +28,7 @@ const Cart = () => {
       </div>
       <div className="cart-item">
         {
-          cartItem.map((element,idx)=>{
+          cartItem.length>0 && cartItem.map((element,idx)=>{
             return(
               <CartItem key={idx} {...element}/>
             )

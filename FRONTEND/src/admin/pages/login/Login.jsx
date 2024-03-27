@@ -50,15 +50,20 @@ export default function SignIn() {
             toast.dismiss(loading);
             toast.success('Logged in successfully');
           }    
-      }).catch(error=>{
-          toast.dismiss(loading);
-          toast.error('Unauthorized.Either email or password is wrong!');
-      })
-    }catch(error){
-      toast.dismiss(loading);
-      toast.error('Something went wrong.Try again!');
-    }
-  };
+      }).catch(error => {
+        toast.dismiss(loading);
+        if (error.response && error.response.status === 401) {
+          toast.error('Unauthorized. Either email or password is wrong!');
+        } else {
+          toast.error('Network error. Please check your internet connection and try again.');
+        }
+      });
+  } catch (error) {
+    toast.dismiss(loading);
+    toast.error('Something went wrong. Please try again later.');
+  }
+  
+};
 useEffect(()=>{
   if(getAdminToken()!=undefined){
     navigate('/admin/dashboard')
