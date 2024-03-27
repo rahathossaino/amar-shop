@@ -6,8 +6,8 @@ import axios from "axios";
 const FilterContext = createContext();
 
 const categoryApi='http://127.0.0.1:8000/api/categories';
-const companyApi='';
-const colorApi='';
+const companyApi='http://127.0.0.1:8000/api/brands';
+const subCategoryApi='http://127.0.0.1:8000/api/subcategories';
 const maxpriceApi='';
 const minpriceApi='';
 const priceApi='';
@@ -18,7 +18,7 @@ const initialState = {
   filter_products: [],
   all_products: [],
   categories:[],
-  colors:[],
+  subcategories:[],
   companies:[],
   price:0,
   maxprice:0,
@@ -65,13 +65,13 @@ export const FilterProvider = ({ children }) => {
   }
   const getCompany=async (url)=>{
     const res=await axios.get(url);
-    const companies=await res.data;
+    const companies=await res.data.brands;
     dispatch({ type: "SET_COMPANIES" ,payload:companies});
   }
-  const getColors=async (url)=>{
+  const getSubCategory=async (url)=>{
     const res=await axios.get(url);
-    const colors=await res.data;
-    dispatch({ type: "SET_COLORS" ,payload:colors});
+    const subcategories=await res.data.subcategories;
+    dispatch({ type: "SET_SUBCATEGORIES" ,payload:subcategories});
   }
   const getPrice=async (url)=>{
     const res=await axios.get(url);
@@ -102,7 +102,7 @@ export const FilterProvider = ({ children }) => {
   useEffect(()=>{
      getCategory(categoryApi); 
      getCompany(companyApi);
-     getColors(colorApi);
+     getSubCategory(subCategoryApi);
      getMaxPrice(maxpriceApi);
      getMinPrice(minpriceApi);
      getPrice(priceApi)

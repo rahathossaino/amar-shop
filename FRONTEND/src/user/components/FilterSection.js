@@ -7,7 +7,7 @@ import { Button } from '../../styles/Button';
 
 
 const FilterSection = () => {
-  const {categories,colors,companies,price,maxPrice,minPrice}=useFilterContext();
+  const {categories,subcategories,companies,price,maxPrice,minPrice}=useFilterContext();
   const setPrice=()=>{
     console.log('i will implment it later');
   }
@@ -23,16 +23,28 @@ const FilterSection = () => {
         <h3>Category</h3>
         <div>
           {
-             categories && categories.map((element,idx)=>{
+             categories.length>0 && categories.map((element,idx)=>{
               return (
                 <button key={idx} type="button" name='category'>
-                  {element}
+                  {element.name}
                 </button>)
             })
           }
         </div>
       </div>
-
+      <div className="filter-category">
+        <h3>Subcategory</h3>
+        <div>
+          {  
+             subcategories.length>0 && subcategories.map((element,idx)=>{
+              return (
+                <button key={idx} type="button" name='category'>
+                  {element.name}
+                </button>)
+            })
+          } 
+        </div>
+      </div>
       <div className="filter-company">
         <h3>Company</h3>
         <form action="#">
@@ -42,10 +54,10 @@ const FilterSection = () => {
             className="filter-company--select"
             // onClick={updateFilterValue}
             >
-            {companies.map((curElem, index) => {
+            { companies.length>0 && companies.map((curElem, index) => {
               return (
-                <option key={index} value={curElem} name="company">
-                  {curElem}
+                <option key={index} value={curElem.id} name="company">
+                  {curElem.name}
                 </option>
               );
             })}
@@ -53,26 +65,6 @@ const FilterSection = () => {
         </form>
       </div>
 
-     <div className="filter-colors colors">
-        <h3>Colors</h3>
-        <div className="filter-color-style">
-          {colors.map((curColor, index) => {
-            return (
-              <button
-                key={index}
-                type="button"
-                value={curColor}
-                name="color"
-                style={{ backgroundColor: curColor }}
-                className="btnStyle"
-                // onClick={updateFilterValue}
-                >
-                {curColor}
-              </button>
-            );
-          })}
-        </div>
-      </div>
       <div className="filter_price">
         <h3>Price</h3>
         <p>
@@ -88,6 +80,7 @@ const FilterSection = () => {
     </Wrapper>
   );
 };
+  
 
 const Wrapper = styled.section`
   padding: 5rem 0;

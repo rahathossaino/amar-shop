@@ -28,7 +28,7 @@ const ProductReducer=(state,action)=>{
             return{
                 ...state,
                 isSingleLoading:false,
-                product:action.payload,
+                singleProduct:action.payload,
             }
         case 'SET_SINGLE_ERROR' :
             return{

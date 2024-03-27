@@ -18,10 +18,7 @@ const User = () => {
   }
   const[user_token,setToken]=useState(getToken());
   const[user,setUser]=useState(getUser());
-  const logout=()=>{
-    sessionStorage.clear();
-    navigate('/account/login');
-  }
+  
   const saveToken=(user,token)=>{
     sessionStorage.setItem('user_token',JSON.stringify(token));
     sessionStorage.setItem('user',JSON.stringify(user));
@@ -41,7 +38,7 @@ const User = () => {
     user_token,
     user,
     getToken,
-    logout,
+    getUser,
     http
   }
 }

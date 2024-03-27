@@ -14,12 +14,33 @@ use Illuminate\Support\Str;
 
 class UserAuthController extends Controller
 {
+    public function signUp(Request $request)
+    {
+        $validation=Validator::make($request->all(),[
+            'firstname'=>'required|string',
+            'lastname'=>'required|string',
+            'email'=>'required|email',
+            'password'=>'required|min:6',
+            'confirm_password'=>'required|same:password'
+        ]);
+        if($validation->passes()){
+            $user=new User();
+            $user->first_name=$request->firstname;
+            $user->last_name=$request->lastname;
+            $user->email=$request->email;
+            $user->password=$request->password;
+            $user->save();
+            return response()->json([
+                'message'=>'You have singned up successfully'
+            ],200);
+        }else{
+            return response()->json([
+                'errors'=>$validation->errors()
+            ],400);
+        }
+    }
     public function authenticate(){
         return false;
-    }
-    public function user($id){
-        $user=User::find($id);
-        return response()->json($user);
     }
     public function login(Request $request)
     {

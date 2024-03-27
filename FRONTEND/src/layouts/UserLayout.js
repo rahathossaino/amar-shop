@@ -32,7 +32,7 @@ const UserLayout = () => {
               <Route path="/about" element={<About/>}/>
               <Route path="/products" element={<Products/>}/>
               <Route path="/contact" element={<Contact/>}/>
-              <Route path="/singleproduct/:id" element={<SingleProduct/>}/>
+              <Route path="/singleproduct/:slug" element={<SingleProduct/>}/>
               <Route path="/cart" element={<Cart/>}/>
               <Route path='/account/sign-up' element={<SignUp/>}/>
               <Route path='/account/login' element={<SignIn/>}/>

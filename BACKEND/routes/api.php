@@ -9,16 +9,27 @@ use App\Http\Controllers\admin\CouponController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\AdminAuthController;
 use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\user\ShopController;
 use App\Http\Controllers\user\UserAuthController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\SingleProductController;
+
 
 
 
 Route::get('/categories',[ShopController::class,'category']);
+Route::get('/subcategories',[ShopController::class,'subCategory']);
+Route::get('/brands',[ShopController::class,'brand']);
+Route::get('/products',[ShopController::class,'product']);
+Route::get('/singleproduct/{slug}',[SingleProductController::class,'singleProduct']);
+Route::post('/singleproduct/ratings/store/{slug}',[SingleProductController::class,'storeRating']);
+Route::get('/singleproduct/rating/{slug}',[SingleProductController::class,'rating']);
+
+
 
 
 Route::group(['prefix'=>'account'],function (){
     Route::group(['middleware'=>'guest'],function (){
+        Route::post('sign-up',[UserAuthController::class,'signUp']);
         Route::post('login',[UserAuthController::class,'login']);
 
     });

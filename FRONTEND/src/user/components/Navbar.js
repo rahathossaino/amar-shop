@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink,Link } from 'react-router-dom'
 import styled from "styled-components"
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu , CgClose } from "react-icons/cg";
-import { Button } from '../../styles/Button';
+import { FaUserCircle } from "react-icons/fa";
+import User from './User';
 
 const Navbar = () => {
   const [menuIcon,setMenuIcon]=useState();
+  const {getUser,getToken}=User();
   return (
     <Nav>
         <div className={menuIcon ? "navbar active" : "navbar"}>
@@ -15,10 +17,24 @@ const Navbar = () => {
                 <li ><NavLink to="/about" className="navbar-link">About</NavLink></li>
                 <li ><NavLink to="/products" className="navbar-link">Products</NavLink></li>
                 <li ><NavLink to="/contact" className="navbar-link">Contact</NavLink></li>
-                <li>
-                  <button className='btn'>
-                    <NavLink to="/user/sign-in" className="navbar-link--btn">Log In</NavLink> 
-                  </button>
+                <li >
+                  {
+                    getToken() !== null ? (
+                      getUser() && getUser().image ? (
+                          <NavLink to="/account/me"> 
+                              <img src={`data:image/jpeg;base64,${getUser().image}`} alt={getUser().first_name} className='icon'/>
+                          </NavLink>
+                          ) : (
+                              <NavLink to="/account/me">
+                                <FaUserCircle className='icon'/>
+                              </NavLink>
+                          )
+                          ) : (
+                            <button className='btn'>
+                              <NavLink to="/account/login" className="navbar-link--btn">Log In</NavLink>
+                            </button>
+                          )
+                  }
                 </li>
                 <li >
                     <NavLink to="/cart" className="navbar-link cart-trolley--link">
@@ -62,6 +78,10 @@ const Nav=styled.nav`
       color:gray;
     }
   }
+}
+.icon{
+  font-size:3rem;
+  border-radius:50%;
 }
 .navbar-link{
   &:link,

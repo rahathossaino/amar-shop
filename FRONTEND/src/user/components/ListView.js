@@ -7,22 +7,22 @@ const ListView = ({ products }) => {
   return (
     <Wrapper className="section">
       <div className="container grid">
-        {products.map((curElem) => {
-          const { id, name, image, price, description } = curElem;
+        {products.length>0 && products.map((curElem) => {
+          const { slug, title, product_image, price, description } = curElem;
           return (
             <div className="card grid grid-two-column">
               <figure>
-                <img src={image} alt={name} />
+                <img src={`data:image/jpeg;base64,${curElem.product_image.image}`} alt={title} />
               </figure>
 
               <div className="card-data">
-                <h3>{name}</h3>
+                <h3>{title}</h3>
                 <p>
                   <FormatPrice price={price} />
                 </p>
                 <p>{description.slice(0, 90)}...</p>
 
-                <NavLink to={`/singleproduct/${id}`} className="btn-main">
+                <NavLink to={`/singleproduct/${slug}`} className="btn-main">
                   <Button className="btn">Read More</Button>
                 </NavLink>
               </div>

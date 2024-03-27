@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { useProductContext } from "./context/productcontext";
@@ -10,62 +10,90 @@ import { MdSecurity } from "react-icons/md";
 import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Star";
 import AddToCart from "./components/AddToCart";
+import ProductDetails from './components/ProductDetails';
+import axios from "axios";
 
 
-const API = "";
+const singleProductApi = "http://127.0.0.1:8000/api/singleproduct/";
+const singleProductRating = "http://127.0.0.1:8000/api/singleproduct/rating/";
+
+
 
 const SingleProduct = () => {
-  const { getSingleProduct, isSingleLoading, singleProduct } =
-    useProductContext();
+  const product = {
+    description: "Product Description",
+    shipping_returns: "Shipping & Returns Information"
+  };
+  const [productRate,setProductRate]=useState({});
+  const getSingleProductRating=async(url)=>{
+    try {
+      const response = await axios.get(url);
+      if(response.status===200){
+        setProductRate(response.data)
+      }
+    } catch (error) {
+      
+    }
+  }
+   
 
-  const { id } = useParams();
-
+  const { getSingleProduct, isSingleLoading, singleProduct } =useProductContext();
+  const { slug } = useParams();
   const {
-    id: alias,
-    name,
-    company,
+    sku,
+    title,
+    brand,
     price,
+    price_of_day,
+    short_description,
     description,
-    category,
-    stock,
+    qty,
+    track_qty,
     stars,
     reviews,
-    image,
+    product_images,
   } = singleProduct;
-
   useEffect(() => {
-    getSingleProduct(`${API}?id=${id}`);
-  }, []);
-
+    getSingleProduct(singleProductApi+slug);
+    getSingleProductRating(singleProductRating+slug);
+  },[]);
+  
   if (isSingleLoading) {
     return <div className="page_loading">Loading.....</div>;
   }
 
   return (
     <Wrapper>
-      <PageNavigation title={name} />
+      <PageNavigation title={title} />
       <Container className="container">
         <div className="grid grid-two-column">
           {/* product Images  */}
           <div className="product_images">
-            <Image imgs={image} />
+            <Image imgs={product_images} />/
           </div>
 
           {/* product dAta  */}
           <div className="product-data">
-            <h2>{name}</h2>
-            <Star stars={stars} reviews={reviews} />
+            <h2>{title}</h2>
+            <Star stars={productRate.overallProductRating} reviews={reviews} numberOfProductRating={productRate.numberOfProductRating}/>
 
             <p className="product-data-price">
               MRP:
-              <del>
+              {price_of_day!==null ?
+               <del>
                 <FormatPrice price={price + 250000} />
-              </del>
+              </del> : <FormatPrice price={price + 250000} />
+              }
+              
             </p>
-            <p className="product-data-price product-data-real-price">
-              Deal of the Day: <FormatPrice price={price} />
-            </p>
-            <p>{description}</p>
+            {
+              price_of_day!==null ? 
+              <p className="product-data-price product-data-real-price">
+                Deal of the Day: <FormatPrice price={price_of_day} />
+              </p> 
+              :null
+            }
+            <p>{short_description}</p>
             <div className="product-data-warranty">
               <div className="product-warranty-data">
                 <TbTruckDelivery className="warranty-icon" />
@@ -91,18 +119,27 @@ const SingleProduct = () => {
             <div className="product-data-info">
               <p>
                 Available:
-                <span> {stock > 0 ? "In Stock" : "Not Available"}</span>
+                <span> {qty > 0 || track_qty==='no' ? "In Stock" : "Not Available"}</span>
               </p>
               <p>
-                ID : <span> {id} </span>
+                SKU : <span> {sku} </span>
               </p>
               <p>
-                Brand :<span> {company} </span>
+                Brand :<span> {brand} </span>
               </p>
             </div>
             <hr/>
-            {stock > 0 && <AddToCart product={singleProduct}/>}
+            {qty > 0 || track_qty==='no' ? <AddToCart product={singleProduct}/> : null}
           </div>
+        </div>
+        <div className="product-details">
+          <ProductDetails
+          product={product}
+          productRatings={productRate.productRatings}
+          overallProductRating={productRate.overallProductRating}
+          numberOfProductRating={productRate.numberOfProductRating}
+          description={description}
+        />
         </div>
       </Container>
     </Wrapper>

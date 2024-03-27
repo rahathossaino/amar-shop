@@ -6,9 +6,8 @@ import { NavLink } from "react-router-dom";
 import { Button } from "../../styles/Button";
 
 const AddToCart = ({ product }) => {
-  const { id, colors, stock } = product;
+  const { id, qty } = product;
 
-  const [color, setColor] = useState(colors[0]);
   const [amount, setAmount] = useState(1);
 
   const setDecrease = () => {
@@ -16,12 +15,12 @@ const AddToCart = ({ product }) => {
   };
 
   const setIncrease = () => {
-    amount < stock ? setAmount(amount + 1) : setAmount(stock);
+    amount < qty ? setAmount(amount + 1) : setAmount(qty);
   };
 
   return (
     <Wrapper>
-      <div className="colors">
+      {/* <div className="colors">
         <p>
           Color:
           {colors.map((curColor, index) => {
@@ -36,7 +35,7 @@ const AddToCart = ({ product }) => {
             );
           })}
         </p>
-      </div>
+      </div> */}
 
       {/* add to cart  */}
       <CartAmountToggle

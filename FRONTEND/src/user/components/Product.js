@@ -3,20 +3,20 @@ import { NavLink } from "react-router-dom";
 import FormatPrice from "../../helpers/FormatPrice";
 
 const Product = (curElem) => {
-  const { id, name, image, price, category } = curElem;
+  const { slug, title, product_image, price, category_name } = curElem;
   return (
-    <NavLink to={`/singleproduct/${id}`}>
+    <NavLink to={`/singleproduct/${slug}`}>
       <div className="card">
         <figure>
-          <img src={image} alt={name} />
-          <figcaption className="caption">{category}</figcaption>
+          <img src={`data:image/jpeg;base64,${product_image.image}`} alt={title} />
+          <figcaption className="caption">{category_name}</figcaption>
         </figure>
 
         <div className="card-data">
           <div className="card-data-flex">
-            <h3>{name}</h3>
+            <h3>{title}</h3>
             <p className="card-data--price">
-              {<FormatPrice price={!(Array.isArray(price) ? price : 0) } />}
+              {<FormatPrice price={ price} />}
               </p>
           </div>
         </div>

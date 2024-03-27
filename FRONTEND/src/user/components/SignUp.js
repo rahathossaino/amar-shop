@@ -12,6 +12,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import User from './User';
+
+
+
 
 function Copyright(props) {
   return (
@@ -28,15 +34,24 @@ function Copyright(props) {
 
 
 const defaultTheme = createTheme();
-
 export default function SignUp() {
+  const {http}=User();
+  const navigate=useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
+    const loading=toast.loading('Singing Up....')
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    http.post('/account/sign-up',{firstname: data.get('firstName'),lastname: data.get('lastName'),email: data.get('email'),password: data.get('password'),confirm_password: data.get('confirmPassword')})
+    .then(res=>{
+      toast.dismiss(loading)
+      toast.success('Singned up successfully')
+      navigate('/account/login')
+    })
+    .catch(error=>{
+      toast.dismiss(loading)
+      toast.error('Something went wrong')
+    })
+      
   };
 
   return (
@@ -98,6 +113,17 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirmPassword"
                   autoComplete="new-password"
                 />
               </Grid>

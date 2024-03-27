@@ -21,7 +21,7 @@ const Sidebar = () => {
     <div className='profilesidebar'>
         <ul className='sidebarList'>
             <li className='side-link'>
-                <Link to='/account/profile' className='link'>
+                <Link to='/account/me' className='link'>
                     <FaUser/>
                     <span>My Profile</span>
                 </Link>

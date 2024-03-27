@@ -51,10 +51,10 @@ const filterReducer = (state, action) => {
         ...state,
         companies:action.payload
       }
-    case 'SET_COLORS':
+    case 'SET_SUBCATEGORIES':
       return {
         ...state,
-        colors:action.payload
+        subcategories:action.payload
       }
     case "SORTING_PRODUCTS":
       let newSortData;

@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import User from './User';
 
 function Copyright(props) {
   return (
@@ -29,13 +32,22 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function ForgetPassword() {
+  const navigate=useNavigate();
+  const {http} =User()
   const handleSubmit = (event) => {
+    const wait=toast.loading('Wait...')
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+      http.post('/account/forgot-password',{email: data.get('email')})
+      .then(res=>{
+        toast.dismiss(wait);
+        // navigate('/new-password/'+res.data.token);
+      })
+      .catch(error=>{
+        toast.dismiss(wait);
+        toast.error("Enter a valid email");
+      });
+
   };
 
   return (
@@ -54,7 +66,7 @@ export default function ForgetPassword() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Forget Password
+            Forgot Password
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
